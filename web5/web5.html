@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JUPITER DAO Rewards Calculator</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body class="space-theme">
+
+    <h1>JUPITER DAO ASR Rewards Estimator</h1>
+
+<div class="description">
+    <p class="calculator-description">This rewards calculator provides estimations based on data inputted by users. Please note that it is impossible for the calculator to be entirely precise due to the dynamic nature of the voting processes and the uncertainty surrounding the remaining number of proposals, and votes to be casted in each, until the end of June. 
+    While we strive to provide accurate estimations, and the data is updated after every new vote, factors such as the number of proposals and votes casted in each may fluctuate, impacting the final rewards distribution. Users should use the calculator as a guide and understand that actual rewards may vary.</p>
+
+<p class="calculator-formula">Formula: Reward Share for a Token = (Total Reward Pool of Token ÷ Total voting power excercised by the entire DAO across all proposals) × User's Voting Power excercised across all proposals
+</p>
+</div>
+
+    <!-- Container for past proposals -->
+    <div id="pastProposals" class="proposal-container">
+        <h2>Past Proposals</h2>
+        <!-- Proposal 1 -->
+        <div class="proposal proposal1">
+            <h3>Test Proposal (Which animal is the cutest?)</h3>
+            <label for="votingPowerProposal1">Your Voting Power:</label>
+            <input type="text" id="votingPowerProposal1" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
+            <label for="totalVotingPowerProposal1">Total Voting Power:</label>
+            <input type="text" id="totalVotingPowerProposal1" value="140857857" disabled>
+        </div>
+        <!-- Proposal 2 -->
+        <div class="proposal proposal2">
+            <h3>Round #1 of LFG Voting</h3>
+            <label for="votingPowerProposal2">Your Voting Power:</label>
+            <input type="text" id="votingPowerProposal2" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
+            <label for="totalVotingPowerProposal2">Total Voting Power:</label>
+            <input type="text" id="totalVotingPowerProposal2" value="201857511" disabled>
+        </div>
+        <!-- Proposal 3 -->
+        <div class="proposal proposal3">
+            <h3>Core Working Group Budget</h3>
+            <label for="votingPowerProposal3">Your Voting Power:</label>
+            <input type="text" id="votingPowerProposal3" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
+            <label for="totalVotingPowerProposal3">Total Voting Power:</label>
+            <input type="text" id="totalVotingPowerProposal3" value="198987006" disabled>
+        </div>
+        <!-- Proposal 4 -->
+        <div class="proposal proposal4">
+            <h3>Round #2 of LFG Voting</h3>
+            <label for="votingPowerProposal4">Your Voting Power:</label>
+            <input type="text" id="votingPowerProposal4" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
+            <label for="totalVotingPowerProposal4">Total Voting Power:</label>
+            <input type="text" id="totalVotingPowerProposal4" value="230849742" disabled>
+        </div>
+    </div>
+
+<p class="proposal-description">There will be more proposals before the end of June. To better estimate your reward share, you will have to estimate the number of proposals left, the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for each future proposal. We encourage you to experiment with different values.</p>
+
+
+    <!-- Container for future proposals -->
+<div id="futureProposals" class="proposal-container future-proposals-container">
+    <h2>Estimate Future Proposals</h2>
+    <label for="numFutureProposals" class="future-proposal-label">How many MORE proposals do you estimate we will vote on until the end of June?</label>
+    <input type="number" id="numFutureProposals" class="future-proposal-input" placeholder="most likely 6">
+    <button onclick="estimateFutureProposals()" class="figma-button">Estimate</button>
+</div>
+
+
+    <!-- Container for future proposal boxes (generated dynamically) -->
+    <div id="futureProposalBoxes"></div>
+
+    <!-- Container for displaying results -->
+    <div id="results" class="result-container"></div>
+
+    <!-- Container for stats -->
+    <div id="stats" class="stats-container" style="display: none;">
+    <h2>Stats</h2>
+   
+</div>
+
+
+    <!-- Calculate Rewards button -->
+    <button id="calculateButton" onclick="calculateRewards()" disabled class="figma-button">Calculate Rewards</button>
+
+
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
