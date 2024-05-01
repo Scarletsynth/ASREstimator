@@ -212,7 +212,7 @@ function calculateRewards() {
                 <p>Total Voting Power Exercised by the Entire DAO: <strong>${totalVotingPower}</strong></p>
                 <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower}</strong></p>
                 <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
-                <p>WEN Reward Pool: <span id="totalRewardPools">[7.5,000,000,000 $WEN]</span></p>
+                <p>WEN Reward Pool: <span id="totalRewardPools">[7,5,000,000,000 $WEN]</span></p>
                 <p>Zeus Reward Pool: <span id="totalRewardPools">[7,500,000 $ZEUS]</span></p>
                 <p>Sharky Reward Pool: <span id="totalRewardPools">[750,000 $SHARKY]</span></p>
                 <p>UPROCK Reward Pool: <span id="totalRewardPools">[7,500,000 $UPT]</span></p>
