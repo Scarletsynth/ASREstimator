@@ -1,0 +1,177 @@
+/* styles.css */
+
+/* Body styles */
+body {
+    background-color: #f5f5f5; /* Light gray background */
+    color: #333; /* Dark text color */
+    font-family: Arial, sans-serif; /* Default font family */
+    padding: 20px;
+}
+
+/* Header styles */
+h1 {
+    color: #444; /* Darker grey text color */}
+
+h2 {
+    color: #0062cc; /* Blue header color */
+}
+
+/* Calculator description styles */
+.calculator-description {
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 20px; /* Adequate padding */
+    margin-bottom: 20px; /* Spacing between sections */
+
+}
+
+
+/* Calculator formula styles */
+.calculator-formula {
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 20px; /* Adequate padding */
+    font-style: italic; /* Italicize the text */
+    color: #555; /* Dark gray text color */
+    margin-bottom: 20px; /* Spacing between sections */
+}
+
+.calculator-description:hover,
+.calculator-formula:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    color: #444; /* Darker grey text color */
+}
+
+
+/* Proposal container styles */
+.proposal-container h2 {
+    color: #444; /*Darker grey text color */    
+    margin-bottom: 20px;
+}
+
+/* Proposal styles */
+.proposal {
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.proposal-description:hover {
+    /* Define the styles you want to apply on hover */
+    background-color: #f0f0f0; /* Light gray background */
+    color: #333; /* Dark text color */
+}
+
+
+.proposal:hover,
+.proposal.hovered {
+    background-color: #f0f0f0; /* Light gray background on hover */
+}
+
+/* Proposal description styles */
+.proposal-description {
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 20px; /* Adequate padding */
+    margin-bottom: 20px; /* Spacing between sections */
+}
+
+/* Styles for future proposal input and label */
+.future-proposal-label {
+    color: #444; /* Darker grey text color */
+    margin-bottom: 10px; /* Spacing between label and input */
+}
+
+.future-proposal-input {
+    width: 10%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+}
+
+
+/* Input styles */
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Button styles */
+.figma-button {
+    background-color: #ccc; /* Light grey background for buttons */
+    color: #444; /* Darker grey text color for buttons */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.figma-button:hover {
+    background-color: #ddd; /* Light gray hover background */
+    color: #444; /* Darker grey text color */
+
+
+}
+.result-container {
+    display: none; /* Initially hide the results section */
+    margin-top: 20px;
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+}
+
+.error {
+    border: 1px solid red !important;
+}
+
+
+.result-container h2 {
+    color: #666; /* Dark gray text color */
+}
+
+#results h2 {
+    color: #666; /* Dark gray text color */
+}
+
+.result-container:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    border: 1px solid #ccc; /* Light gray border on hover */
+}
+
+/* CSS for stats section */
+.stats-container {
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.stats-container h2 {
+    color: #444; /* Darker grey text color */
+    margin-bottom: 10px;
+}
+
+.stats-container p {
+    color: #666; /* Dark gray text color */
+    margin-bottom: 5px;
+}
+
+.stats-container p span {
+    font-weight: bold;
+    color: #333; /* Dark text color */
+}
