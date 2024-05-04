@@ -124,11 +124,8 @@ function calculateRewards() {
         alert('Please fill in all required fields.');
         return;
     }
-
-    // Proceed with calculations if all fields are filled
-    // Your calculation logic here...
-
-
+    
+    // Calculation logic here
 
     // Proceed with calculations if all fields are filled in
     if (allFieldsFilled) {
@@ -209,7 +206,7 @@ function calculateRewards() {
         if (statsDiv) {
             statsDiv.innerHTML = `
                 <h2>More Stats</h2>
-                <p>Total Voting Power Exercised by the Entire DAO: <strong>${totalVotingPower}</strong></p>
+                <p>Total Voting Power Exercised by the Entire DAO that you estimated: <strong>${totalVotingPower}</strong></p>
                 <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower}</strong></p>
                 <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
                 <p>WEN Reward Pool: <span id="totalRewardPools">[7,5,000,000,000 $WEN]</span></p>
