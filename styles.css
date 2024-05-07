@@ -114,21 +114,26 @@ h2 {
 }
 
 .tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
+    visibility: hidden;
+    width: 200px; /* Fixed width */
+    max-width: 80vw; /* Maximum width to fit within viewport */
+    min-height: 100px; /* Set minimum height */
+    background-color: #555; /* Background color */
+    color: #fff; /* Text color */
+    text-align: left; /* Align text to the left */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Padding around the text */
+    white-space: normal; /* Allow text to wrap */
+    overflow-wrap: break-word; /* Ensure long words break */
+    position: absolute;
+    z-index: 1;
+    bottom: 130%;
+    left: 0; /* Position to the left */
+    margin-right: 20px; /* Add some space from the edge */
+    opacity: 0;
+    transition: opacity 0.3s;
 }
+
 
 .tooltip .tooltiptext::after {
   content: "";
