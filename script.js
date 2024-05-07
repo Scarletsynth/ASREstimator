@@ -1,3 +1,4 @@
+
 // Function to format numerical inputs with commas for thousands separators
 function formatNumericInput(input) {
     var value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
@@ -7,7 +8,7 @@ function formatNumericInput(input) {
 
 // Function to generate proposal input boxes dynamically
 function generateProposalBoxes() {
-    var totalProposals = 4; // Total number of past proposals
+    var totalProposals = 5; // Total number of past proposals
 
     var proposalBoxesDiv = document.getElementById("pastProposals");
     if (!proposalBoxesDiv) return; // Check if the element exists
@@ -17,9 +18,10 @@ function generateProposalBoxes() {
     // Define past proposals with their respective total voting power
 var pastProposals = [
     { name: "Proposal 1: Test Proposal (Which Animal Is The Cutest?)", totalVotingPower: 140857857 },
-    { name: "Proposal 2:Round #1 of LFG Voting", totalVotingPower: 201857511 },
-    { name: "Proposal 3:Core Working Group Budget", totalVotingPower: 198987006 },
-    { name: "Proposal 4:Round #2 of LFG Voting", totalVotingPower: 230849742 }
+    { name: "Proposal 2: Round #1 of LFG Voting", totalVotingPower: 201857511 },
+    { name: "Proposal 3: Core Working Group Budget", totalVotingPower: 198987006 },
+    { name: "Proposal 4: Round #2 of LFG Voting", totalVotingPower: 230849742 },
+    { name: "Proposal 5: Catdet, WEB and Reddit Working Groups Budget", totalVotingPower: 192097954 },
 ];
 
 pastProposals.forEach(function(proposal, index) {
@@ -124,16 +126,14 @@ function calculateRewards() {
         alert('Please fill in all required fields.');
         return;
     }
-    
-    // Calculation logic here
 
-    // Proceed with calculations if all fields are filled in
+        // Proceed with calculations if all fields are filled in
     if (allFieldsFilled) {
 
 
     // Calculate total voting power across all past proposals
         var totalVotingPower = 0;
-        for (var i = 1; i <= 4; i++) {
+        for (var i = 1; i <= 5; i++) {
             var input = document.getElementById(`totalVotingPowerProposal${i}`);
             var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
             totalVotingPower += votingPower;
@@ -162,7 +162,7 @@ function calculateRewards() {
 
         // Calculate total user voting power
         var totalYourVotingPower = 0;
-        for (var i = 1; i <= 4; i++) {
+        for (var i = 1; i <= 5; i++) {
             var input = document.getElementById(`votingPowerProposal${i}`);
             var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
             totalYourVotingPower += votingPower;
@@ -206,9 +206,8 @@ function calculateRewards() {
         if (statsDiv) {
             statsDiv.innerHTML = `
                 <h2>More Stats</h2>
-                <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalVotingPower}</strong></p>
-                <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower}</strong></p>
-                <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
+                <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalVotingPower.toLocaleString()}</strong></p>
+                <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
                 <p>WEN Reward Pool: <span id="totalRewardPools">[7,5,000,000,000 $WEN]</span></p>
                 <p>Zeus Reward Pool: <span id="totalRewardPools">[7,500,000 $ZEUS]</span></p>
                 <p>Sharky Reward Pool: <span id="totalRewardPools">[750,000 $SHARKY]</span></p>
