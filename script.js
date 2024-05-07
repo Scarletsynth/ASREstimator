@@ -1,4 +1,5 @@
 
+
 // Function to format numerical inputs with commas for thousands separators
 function formatNumericInput(input) {
     var value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
@@ -29,11 +30,27 @@ pastProposals.forEach(function(proposal, index) {
     proposalBox.classList.add("proposal");
     proposalBox.innerHTML = `
         <h3>${proposal.name}</h3>
-        <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
-        <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
-        <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
-        <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
+        ${index === 4 ? `
+            <div class="tooltip">
+                <span class="info">i</span>
+                <span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. Assuming you voted in all 3, please Input the Voting Power you used for 1 Vote. If you did not vote in all 3, please use the average (formula for Your Voting Power value: Your Voting power = Total voting power you used (sum of Power used in: WWG , RWG, CAWG votes) ÷ 3 </span>
+            </div>
+            <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
+            <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
+            <div class="tooltip">
+                <span class="info">i</span>
+                <span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. This is the total number of votes across all 3 proposals, divided by 3.</span>
+            </div>
+            <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
+            <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
+        ` : `
+            <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
+            <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
+            <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
+            <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
+        `}
     `;
+
     proposalBoxesDiv.appendChild(proposalBox);
 });
 
