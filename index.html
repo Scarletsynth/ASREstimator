@@ -18,6 +18,7 @@
 </p>
 </div>
 
+   
     <!-- Container for past proposals -->
     <div id="pastProposals" class="proposal-container">
         <h2>Past Proposals</h2>
@@ -53,7 +54,20 @@
             <label for="totalVotingPowerProposal4">Total Voting Power:</label>
             <input type="text" id="totalVotingPowerProposal4" value="230849742" disabled>
         </div>
+
+<!-- Proposal 5 -->
+<div class="proposal proposal5">
+    <h3>Catdet, WEB, and Reddit Working Groups Budget <span class="tooltip"><i class="info">i</i><span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. Assuming you voted in all 3, please Input the Voting Power you used for 1 Vote. If you did not vote in all 3, please use this formula for Your Voting Power value: Your Voting power = Total voting power you used (sum of Power used in: WWG , RWG, CAWG votes)  / 3  </span></span></h3>
+    <label for="votingPowerProposal5">Your Voting Power:</label>
+    <input type="text" id="votingPowerProposal5" placeholder="How much did you vote with per vote?"  oninput="formatNumericInput(this)">
+    <label for="totalVotingPowerProposal5">Total Voting Power:</label>
+    <input type="text" id="totalVotingPowerProposal5" value="192097954" disabled>
+</div>
+
+
+
     </div>
+     
 
 <p class="proposal-description">There will be more proposals before the end of June. To better estimate your reward share, you will have to estimate the number of proposals left, the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for each future proposal. We encourage you to experiment with different values.</p>
 
@@ -62,7 +76,11 @@
 <div id="futureProposals" class="proposal-container future-proposals-container">
     <h2>Estimate Future Proposals</h2>
     <label for="numFutureProposals" class="future-proposal-label">How many MORE proposals do you estimate we will vote on until the end of June?</label>
-    <input type="number" id="numFutureProposals" class="future-proposal-input" placeholder="most likely 6">
+    <input type="number" id="numFutureProposals" class="future-proposal-input" placeholder="most likely 5">
+    <div class="tooltip">
+        <span class="info">i</span>
+        <span class="tooltiptext"> If you want to estimate your current rewards, assuming NO future votes, please enter "0", click Estimate Future Proposals, and then click Calculate.</span>
+    </div>
     <button onclick="estimateFutureProposals()" class="figma-button">Estimate Future Proposals</button>
 </div>
 
