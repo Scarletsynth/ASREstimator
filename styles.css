@@ -108,6 +108,58 @@ h2 {
     border-radius: 5px; /* Rounded corners */
 }
 
+.tooltip.proposal5-tooltip {
+    position: relative;
+    display: inline-block;
+    margin-top: 5px; /* Adjust as needed */
+}
+
+.tooltip.proposal5-tooltip .info {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: #333;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.tooltip.proposal5-tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the element */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip.proposal5-tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.tooltip.proposal5-tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+
 .tooltip {
   position: relative;
   display: inline-block;
@@ -134,6 +186,11 @@ h2 {
     transition: opacity 0.3s;
 }
 
+
+.tooltip.estimate-tooltip .tooltiptext {
+  left: unset; /* Remove the left positioning */
+  right: 0; /* Position to the right */
+}
 
 .tooltip .tooltiptext::after {
   content: "";
