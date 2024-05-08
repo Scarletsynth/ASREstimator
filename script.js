@@ -7,6 +7,7 @@ function formatNumericInput(input) {
     input.value = formattedValue; // Set the input value with the formatted value
 }
 
+
 // Function to generate proposal input boxes dynamically
 function generateProposalBoxes() {
     var totalProposals = 5; // Total number of past proposals
@@ -22,34 +23,31 @@ function generateProposalBoxes() {
         { name: "Proposal 2: Round #1 of LFG Voting", totalVotingPower: 201857511 },
         { name: "Proposal 3: Core Working Group Budget", totalVotingPower: 198987006 },
         { name: "Proposal 4: Round #2 of LFG Voting", totalVotingPower: 230849742 },
-        { name: "Proposal 5: Catdet, WEB and Reddit Working Groups Budget", totalVotingPower: 192097954 },
+        { 
+            name: "Proposal 5: Catdet, WEB and Reddit Working Groups Budget", 
+            totalVotingPower: 192097954,
+            subProposals: [
+                { name: "Trial Budget: Reddit Working Group", daoTotalVotingPower: 189406552 },
+                { name: "Trial Budget: Catdet Working Group", daoTotalVotingPower: 188577101 },
+                { name: "Trial Budget: Web Working Group", daoTotalVotingPower: 189310210 }
+            ]
+        },
     ];
 
     pastProposals.forEach(function(proposal, index) {
         var proposalBox = document.createElement("div");
         proposalBox.classList.add("proposal");
-
-        // Add a different class for Proposal 5 elements
-        if (index === 4) {
-            proposalBox.classList.add("proposal5");
-        }
-
         proposalBox.innerHTML = `
             <h3>${proposal.name}</h3>
-            ${index === 4 ? `
-                <div class="tooltip">
-                    <span class="info">i</span>
-                    <span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. Assuming you voted in all 3, please Input the Voting Power you used for 1 Vote. If you did not vote in all 3, please use the average (formula for Your Voting Power value: Your Voting power = Total voting power you used (sum of Power used in: WWG , RWG, CAWG votes) ÷ 3 </span>
+            ${index === 4 ? proposal.subProposals.map((subProposal, subIndex) => `
+                <div class="sub-proposal">
+                    <h4>${subProposal.name}</h4>
+                    <label for="votingPowerSubProposal${subIndex + 1}">Your Voting Power:</label>
+                    <input type="text" id="votingPowerSubProposal${subIndex + 1}" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
+                    <label for="totalVotingPowerSubProposal${subIndex + 1}">DAO Total Voting Power:</label>
+                    <input type="text" id="totalVotingPowerSubProposal${subIndex + 1}" value="${subProposal.daoTotalVotingPower.toLocaleString()}" disabled>
                 </div>
-                <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
-                <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
-                <div class="tooltip">
-                    <span class="info">i</span>
-                    <span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. This is the total number of votes across all 3 proposals, divided by 3.</span>
-                </div>
-                <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
-                <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
-            ` : `
+            `).join('') : `
                 <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
                 <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
                 <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
@@ -59,23 +57,8 @@ function generateProposalBoxes() {
 
         proposalBoxesDiv.appendChild(proposalBox);
     });
-
-
-    // Enable the Estimate button
-    var estimateButton = document.getElementById("estimateButton");
-    if (estimateButton) estimateButton.disabled = false;
-
-    // Add event listeners for hover effect to all proposal elements
-    var proposalElements = document.querySelectorAll('.proposal');
-    proposalElements.forEach(function(proposalElement) {
-        proposalElement.addEventListener('mouseover', function() {
-            this.classList.add('hovered');
-        });
-        proposalElement.addEventListener('mouseout', function() {
-            this.classList.remove('hovered');
-        });
-    });
 }
+
 
  // Function to estimate future proposals based on user input
  function estimateFutureProposals() {
@@ -115,6 +98,7 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+
 function calculateRewards() {
     // Check if all required fields are filled in
     var allFieldsFilled = true;
@@ -151,19 +135,24 @@ function calculateRewards() {
         return;
     }
 
-        // Proceed with calculations if all fields are filled in
+    // Proceed with calculations if all fields are filled in
     if (allFieldsFilled) {
-
-
-    // Calculate total voting power across all past proposals
+        // Calculate total voting power across all past proposals
         var totalVotingPower = 0;
-        for (var i = 1; i <= 5; i++) {
+        for (var i = 1; i <= 4; i++) {
             var input = document.getElementById(`totalVotingPowerProposal${i}`);
             var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
             totalVotingPower += votingPower;
         }
 
-        // Calculate total voting power across all future proposals
+        // Calculate total voting power for Proposal 5 (DAO)
+        var subProposal1DaoVotingPower = parseFloat(document.getElementById('totalVotingPowerSubProposal1').value.replace(/\D/g, '')) || 0;
+        var subProposal2DaoVotingPower = parseFloat(document.getElementById('totalVotingPowerSubProposal2').value.replace(/\D/g, '')) || 0;
+        var subProposal3DaoVotingPower = parseFloat(document.getElementById('totalVotingPowerSubProposal3').value.replace(/\D/g, '')) || 0;
+        var averageProposal5DaoVotingPower = (subProposal1DaoVotingPower + subProposal2DaoVotingPower + subProposal3DaoVotingPower) / 3;
+        totalVotingPower += averageProposal5DaoVotingPower;
+
+        // Calculate total voting power for future proposals
         var numFutureProposals = parseInt(document.getElementById("numFutureProposals").value);
         for (var i = 1; i <= numFutureProposals; i++) {
             var input = document.getElementById(`totalVotingPowerFutureProposal${i}`);
@@ -186,11 +175,19 @@ function calculateRewards() {
 
         // Calculate total user voting power
         var totalYourVotingPower = 0;
-        for (var i = 1; i <= 5; i++) {
+        for (var i = 1; i <= 4; i++) {
             var input = document.getElementById(`votingPowerProposal${i}`);
             var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
             totalYourVotingPower += votingPower;
         }
+
+        // Calculate total voting power for Proposal 5 (User)
+        var subProposal1UserVotingPower = parseFloat(document.getElementById('votingPowerSubProposal1').value.replace(/\D/g, '')) || 0;
+        var subProposal2UserVotingPower = parseFloat(document.getElementById('votingPowerSubProposal2').value.replace(/\D/g, '')) || 0;
+        var subProposal3UserVotingPower = parseFloat(document.getElementById('votingPowerSubProposal3').value.replace(/\D/g, '')) || 0;
+        var averageProposal5UserVotingPower = (subProposal1UserVotingPower + subProposal2UserVotingPower + subProposal3UserVotingPower) / 3;
+        totalYourVotingPower += averageProposal5UserVotingPower;
+
         for (var i = 1; i <= numFutureProposals; i++) {
             var input = document.getElementById(`votingPowerFutureProposal${i}`);
             var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
@@ -204,47 +201,41 @@ function calculateRewards() {
         var sharkyRewardShare = sharkyRewardPerVotingPowerUnit * totalYourVotingPower;
         var UPROCKRewardShare = UPROCKrewardPerVotingPowerUnit * totalYourVotingPower;
 
-
         // Show the results section after calculation
         document.getElementById("results").style.display = "block";
 
         // Update the results section with the calculated rewards
         var resultsDiv = document.getElementById("results");
-        if (resultsDiv) {
-            resultsDiv.innerHTML = `
-                <h2>Your Rewards Estimate</h2>
-                <p>JUP Reward Share: <strong>${jupRewardShare.toFixed(4)} JUP tokens</strong></p>
-                <p>WEN Reward Share: <strong>${WENRewardShare.toFixed(4)} WEN tokens</strong></p>
-                <p>Zeus Reward Share: <strong>${zeusRewardShare.toFixed(4)} Zeus tokens</strong></p>
-                <p>Sharky Reward Share: <strong>${sharkyRewardShare.toFixed(4)} Sharky tokens</strong></p>
-                <p>UPROCK Reward Share: <strong>${UPROCKRewardShare.toFixed(4)} UPROCK tokens</strong></p>
-                <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 Jup as voting power in the estimate.</p>
-            `;
-        }
+        if (resultsDiv)
+        resultsDiv.innerHTML = `
+            <h2>Your Rewards Estimate</h2>
+            <p>JUP Reward Share: <strong>${jupRewardShare.toFixed(4)} JUP tokens</strong></p>
+            <p>WEN Reward Share: <strong>${WENRewardShare.toFixed(4)} WEN tokens</strong></p>
+            <p>Zeus Reward Share: <strong>${zeusRewardShare.toFixed(4)} Zeus tokens</strong></p>
+            <p>Sharky Reward Share: <strong>${sharkyRewardShare.toFixed(4)} Sharky tokens</strong></p>
+            <p>UPROCK Reward Share: <strong>${UPROCKRewardShare.toFixed(4)} UPROCK tokens</strong></p>
+            <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+        `;
+    }
 
-        // Show the stats section after calculation
-        document.getElementById("stats").style.display = "block";
+    // Show the stats section after calculation
+    document.getElementById("stats").style.display = "block";
 
-        // Update the stats section with relevant data
-        var statsDiv = document.getElementById("stats");
-        if (statsDiv) {
-            statsDiv.innerHTML = `
-                <h2>More Stats</h2>
-                <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalVotingPower.toLocaleString()}</strong></p>
-                <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
-                <p>WEN Reward Pool: <span id="totalRewardPools">[7,5,000,000,000 $WEN]</span></p>
-                <p>Zeus Reward Pool: <span id="totalRewardPools">[7,500,000 $ZEUS]</span></p>
-                <p>Sharky Reward Pool: <span id="totalRewardPools">[750,000 $SHARKY]</span></p>
-                <p>UPROCK Reward Pool: <span id="totalRewardPools">[7,500,000 $UPT]</span></p>
+    // Update the stats section with relevant data
+    var statsDiv = document.getElementById("stats");
+    if (statsDiv) {
+        statsDiv.innerHTML = `
+            <h2>More Stats</h2>
+            <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalVotingPower.toLocaleString()}</strong></p>
+            <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
+            <p>WEN Reward Pool: <span id="totalRewardPools">[7,5,000,000,000 $WEN]</span></p>
+            <p>Zeus Reward Pool: <span id="totalRewardPools">[7,500,000 $ZEUS]</span></p>
+            <p>Sharky Reward Pool: <span id="totalRewardPools">[750,000 $SHARKY]</span></p>
+             <p>UPROCK Reward Pool: <span id="totalRewardPools">[7,500,000 $UPT]</span></p>
                 <!-- Add more stats as needed -->
             `;
         }
-
-    } else {
-        // Optionally, display an error message to the user
-        alert('Please fill in all required fields.');
     }
-}
 
 
 // Adding placeholder text dynamically through JavaScript
