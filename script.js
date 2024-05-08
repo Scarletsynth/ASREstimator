@@ -24,7 +24,7 @@ function generateProposalBoxes() {
         { name: "Proposal 3: Core Working Group Budget", totalVotingPower: 198987006 },
         { name: "Proposal 4: Round #2 of LFG Voting", totalVotingPower: 230849742 },
         { 
-            name: "Proposal 5: Catdet, WEB and Reddit Working Groups Budget", 
+            name: "Proposal 5: Catdet, WEB, and Reddit Working Groups Budget", 
             totalVotingPower: 192097954,
             subProposals: [
                 { name: "Trial Budget: Reddit Working Group", daoTotalVotingPower: 189406552 },
