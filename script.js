@@ -17,42 +17,49 @@ function generateProposalBoxes() {
     proposalBoxesDiv.innerHTML = ""; // Clear previous boxes
 
     // Define past proposals with their respective total voting power
-var pastProposals = [
-    { name: "Proposal 1: Test Proposal (Which Animal Is The Cutest?)", totalVotingPower: 140857857 },
-    { name: "Proposal 2: Round #1 of LFG Voting", totalVotingPower: 201857511 },
-    { name: "Proposal 3: Core Working Group Budget", totalVotingPower: 198987006 },
-    { name: "Proposal 4: Round #2 of LFG Voting", totalVotingPower: 230849742 },
-    { name: "Proposal 5: Catdet, WEB and Reddit Working Groups Budget", totalVotingPower: 192097954 },
-];
+    var pastProposals = [
+        { name: "Proposal 1: Test Proposal (Which Animal Is The Cutest?)", totalVotingPower: 140857857 },
+        { name: "Proposal 2: Round #1 of LFG Voting", totalVotingPower: 201857511 },
+        { name: "Proposal 3: Core Working Group Budget", totalVotingPower: 198987006 },
+        { name: "Proposal 4: Round #2 of LFG Voting", totalVotingPower: 230849742 },
+        { name: "Proposal 5: Catdet, WEB and Reddit Working Groups Budget", totalVotingPower: 192097954 },
+    ];
 
-pastProposals.forEach(function(proposal, index) {
-    var proposalBox = document.createElement("div");
-    proposalBox.classList.add("proposal");
-    proposalBox.innerHTML = `
-        <h3>${proposal.name}</h3>
-        ${index === 4 ? `
-            <div class="tooltip">
-                <span class="info">i</span>
-                <span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. Assuming you voted in all 3, please Input the Voting Power you used for 1 Vote. If you did not vote in all 3, please use the average (formula for Your Voting Power value: Your Voting power = Total voting power you used (sum of Power used in: WWG , RWG, CAWG votes) ÷ 3 </span>
-            </div>
-            <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
-            <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
-            <div class="tooltip">
-                <span class="info">i</span>
-                <span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. This is the total number of votes across all 3 proposals, divided by 3.</span>
-            </div>
-            <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
-            <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
-        ` : `
-            <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
-            <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
-            <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
-            <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
-        `}
-    `;
+    pastProposals.forEach(function(proposal, index) {
+        var proposalBox = document.createElement("div");
+        proposalBox.classList.add("proposal");
 
-    proposalBoxesDiv.appendChild(proposalBox);
-});
+        // Add a different class for Proposal 5 elements
+        if (index === 4) {
+            proposalBox.classList.add("proposal5");
+        }
+
+        proposalBox.innerHTML = `
+            <h3>${proposal.name}</h3>
+            ${index === 4 ? `
+                <div class="tooltip">
+                    <span class="info">i</span>
+                    <span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. Assuming you voted in all 3, please Input the Voting Power you used for 1 Vote. If you did not vote in all 3, please use the average (formula for Your Voting Power value: Your Voting power = Total voting power you used (sum of Power used in: WWG , RWG, CAWG votes) ÷ 3 </span>
+                </div>
+                <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
+                <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
+                <div class="tooltip">
+                    <span class="info">i</span>
+                    <span class="tooltiptext">These 3 different votes count as 1 proposal in terms of rewards. This is the total number of votes across all 3 proposals, divided by 3.</span>
+                </div>
+                <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
+                <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
+            ` : `
+                <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
+                <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?"  oninput="formatNumericInput(this)">
+                <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
+                <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
+            `}
+        `;
+
+        proposalBoxesDiv.appendChild(proposalBox);
+    });
+
 
     // Enable the Estimate button
     var estimateButton = document.getElementById("estimateButton");
