@@ -120,7 +120,7 @@
 
 .toggle-icon {
     position: absolute;
-    top: 45%; /* Adjust the vertical position */
+    top: 50%; /* Adjust the vertical position */
     transform: translateY(-50%);
     font-size: 20px; /* Adjust the font size as needed */
 }
