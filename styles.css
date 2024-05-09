@@ -122,11 +122,11 @@
     position: absolute;
     top: 45%; /* Adjust the vertical position */
     transform: translateY(-50%);
-    font-size: 22px; /* Adjust the font size as needed */
+    font-size: 20px; /* Adjust the font size as needed */
 }
 
 .light-mode {
-    left: 7px; /* Adjust the position of the sun icon */
+    left: 8px; /* Adjust the position of the sun icon */
 }
 
 .dark-mode {
