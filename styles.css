@@ -326,9 +326,8 @@ h2 {
     position: absolute;
     z-index: 1;
     bottom: 130%;
-    left: 50%; /* Adjusted left position */
-    transform: translateX(-50%); /* Center horizontally */
-    opacity: 0;
+    left: 0; /* Adjusted left position */
+       opacity: 0;
     transition: opacity 0.3s;
 }
 .proposal5-tooltip:hover .tooltiptext {
@@ -387,8 +386,8 @@ h2 {
 }
 
 .tooltip.estimate-tooltip .tooltiptext {
-    left: unset; /* Remove the left positioning */
-    right: 0; /* Position to the right */
+    left: 0; /* Remove the left positioning */
+    right: unset; /* Position to the right */
 }
 
 .tooltip .tooltiptext::after {
