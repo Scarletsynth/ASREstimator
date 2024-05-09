@@ -118,6 +118,21 @@
     align-items: center; /* Center items vertically */
 }
 
+.toggle-icon {
+    position: absolute;
+    top: 45%; /* Adjust the vertical position */
+    transform: translateY(-50%);
+    font-size: 22px; /* Adjust the font size as needed */
+}
+
+.light-mode {
+    left: 7px; /* Adjust the position of the sun icon */
+}
+
+.dark-mode {
+    right: 12px; /* Adjust the position of the moon icon */
+}
+
 .switch {
     position: relative;
     display: inline-block;
