@@ -1,5 +1,177 @@
 /* styles.css */
 
+/* Dark theme styles */
+.dark-theme body {
+    background-color: #111; /* Dark background color */
+    color: #ddd; /* Light text color */
+}
+
+.dark-theme .website-title,
+.dark-theme .calculator-description,
+.dark-theme .calculator-formula,
+.dark-theme .proposal,
+.dark-theme .proposal-description,
+.dark-theme .result-container,
+.dark-theme .stats-container {
+    background-color: #222; /* Dark background color for containers */
+    color: #ddd; /* Light text color */
+    border-color: #333; /* Dark border color */
+}
+
+.dark-theme {
+    background-color: #111; /* Dark background color for the entire website */
+}
+
+.dark-theme .title-section {
+    background-color: #111; /* Dark background color */
+}
+
+/* Dark theme hover styles for all sections */
+.dark-theme .proposal:hover,
+.dark-theme .proposal.hovered,
+.dark-theme .calculator-description:hover,
+.dark-theme .calculator-formula:hover,
+.dark-theme .proposal-description:hover,
+.dark-theme .result-container:hover,
+.dark-theme .stats-container:hover {
+    background-color: #333; /* Dark gray background on hover */
+    border: 1px solid #555; /* Darker gray border on hover */
+    color: #ddd; /* Light text color */
+}
+
+/* Dark theme styles for future proposals */
+.dark-theme .future-proposals-container {
+    background-color: #222; /* Dark background color */
+    color: #ddd; /* Light text color */
+    border-color: #333; /* Dark border color */
+}
+
+.dark-theme #futureProposals h2 {
+    color: #ddd; /* Light text color */
+}
+
+.dark-theme .future-proposals-container .future-proposal-label {
+    color: #ddd; /* Light text color */
+}
+
+.dark-theme .future-proposals-container:hover {
+    background-color: #333; /* Dark gray background on hover */
+    border: 1px solid #555; /* Darker gray border on hover */
+    color: #ddd; /* Light text color */
+}
+
+/* Dark mode styles for results section */
+.dark-theme #results h2 {
+    color: #ddd; /* Light text color */
+}
+
+/* Dark mode styles for stats section */
+.dark-theme #stats {
+    background-color: #222; /* Dark background color */
+    color: #ddd; /* Light text color */
+    border-color: #333; /* Dark border color */
+}
+
+.dark-theme #stats h2 {
+    color: #ddd; /* Light text color */
+}
+
+.dark-theme #stats p {
+    color: #ddd; /* Light text color */
+}
+
+.dark-theme #stats p span {
+    color: #ddd; /* Light text color */
+}
+
+/* Dark theme styles for input boxes */
+.dark-theme input[type="text"],
+.dark-theme input[type="number"],
+.dark-theme input[type="email"] {
+    background-color: #333; /* Darker background color for input boxes */
+    color: #ddd; /* Light text color */
+    border: 1px solid #555; /* Darker border color */
+}
+
+/* Dark mode styles for button */
+.dark-theme .figma-button {
+    background-color: #aaa; /* Darker silver background for buttons */
+    color: #444; /* Darker grey text color for buttons */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+.dark-theme .figma-button:hover {
+    background-color: #999; /* Slightly darker hover background */
+    color: #444; /* Darker grey text color */
+}
+
+
+.theme-toggle {
+    position: absolute; /* Fixed position */
+    top: 50px; /* Adjust the top distance as needed */
+    right: 30px; /* Align to the right side */
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center items vertically */
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: black;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    background-color: silver; /* Dot color when switch is on */
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
 /* Body styles */
 body {
     background-color: #f5f5f5; /* Light gray background */
@@ -10,10 +182,11 @@ body {
 
 /* Header styles */
 h1 {
-    color: #444; /* Darker grey text color */}
+    color: #444; /* Darker grey text color */
+}
 
 h2 {
-    color: #0062cc; /* Blue header color */
+    color: #444; /* Darker grey text color */
 }
 
 /* Calculator description styles */
@@ -23,9 +196,7 @@ h2 {
     border-radius: 5px; /* Rounded corners */
     padding: 20px; /* Adequate padding */
     margin-bottom: 20px; /* Spacing between sections */
-
 }
-
 
 /* Calculator formula styles */
 .calculator-formula {
@@ -44,10 +215,9 @@ h2 {
     color: #444; /* Darker grey text color */
 }
 
-
 /* Proposal container styles */
 .proposal-container h2 {
-    color: #444; /*Darker grey text color */    
+    color: #444; /*Darker grey text color */
     margin-bottom: 20px;
 }
 
@@ -66,7 +236,6 @@ h2 {
     background-color: #f0f0f0; /* Light gray background */
     color: #333; /* Dark text color */
 }
-
 
 .proposal:hover,
 .proposal.hovered {
@@ -97,7 +266,6 @@ h2 {
     border-radius: 5px; /* Rounded corners */
 }
 
-
 /* Input styles within proposal containers */
 .proposal input[type="text"] {
     width: calc(100% - 18px); /* Adjust width as needed */
@@ -106,44 +274,54 @@ h2 {
     margin-bottom: 10px;
     border: 1px solid #ccc; /* Light gray border */
     border-radius: 5px; /* Rounded corners */
+
 }
 
-.tooltip.proposal5-tooltip {
-    position: relative;
+.proposal-title-container h3,
+.proposal-title-container .tooltip {
     display: inline-block;
-    margin-top: 5px; /* Adjust as needed */
+    top: 0;
+    right: 0;
+    margin-top: -5px; /* Adjust as needed */
+    margin-right: 5px; /* Adjust as needed */
+    margin-left: 5px; /* Adjust as needed */
 }
 
 .tooltip.proposal5-tooltip .info {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-    background-color: #333;
-    color: #fff;
-    border-radius: 50%;
-    cursor: pointer;
+    font-style: normal; /* Ensure the "i" icon is not italic */
 }
 
-.tooltip.proposal5-tooltip .tooltiptext {
+.proposal5-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.proposal5-tooltip .tooltiptext {
     visibility: hidden;
-    width: 200px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px;
+    width: 200px; /* Fixed width */
+    max-width: 80vw; /* Maximum width to fit within viewport */
+    min-height: 100px; /* Set minimum height */
+    background-color: #555; /* Background color */
+    color: #fff; /* Text color */
+    text-align: left; /* Align text to the left */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Padding around the text */
+    white-space: normal; /* Allow text to wrap */
+    overflow-wrap: break-word; /* Ensure long words break */
     position: absolute;
     z-index: 1;
-    bottom: 125%; /* Position the tooltip above the element */
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 130%;
+    left: 50%; /* Adjusted left position */
+    transform: translateX(-50%); /* Center horizontally */
     opacity: 0;
     transition: opacity 0.3s;
 }
+.proposal5-tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
 
-.tooltip.proposal5-tooltip .tooltiptext::after {
+.proposal5-tooltip .tooltiptext::after {
     content: "";
     position: absolute;
     top: 100%;
@@ -151,18 +329,25 @@ h2 {
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: #333 transparent transparent transparent;
+    border-color: #555 transparent transparent transparent;
 }
 
-.tooltip.proposal5-tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+.proposal5-tooltip .info {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: silver;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 
 .tooltip {
-  position: relative;
-  display: inline-block;
+    position: relative;
+    display: inline-block;
 }
 
 .tooltip .tooltiptext {
@@ -186,45 +371,44 @@ h2 {
     transition: opacity 0.3s;
 }
 
-
 .tooltip.estimate-tooltip .tooltiptext {
-  left: unset; /* Remove the left positioning */
-  right: 0; /* Position to the right */
+    left: unset; /* Remove the left positioning */
+    right: 0; /* Position to the right */
 }
 
 .tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
+    visibility: visible;
+    opacity: 1;
 }
 
 .tooltip .info {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  background-color: silver;
-  color: #fff;
-  border-radius: 50%;
-  cursor: pointer;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: silver;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
 }
-
 
 /* Button styles */
 .figma-button {
     background-color: #ccc; /* Light grey background for buttons */
     color: #444; /* Darker grey text color for buttons */
+    margin-top: 20px; /* Adjust the top margin as needed */
     border: none;
     border-radius: 5px; /* Rounded corners */
     padding: 10px 20px;
@@ -235,9 +419,8 @@ h2 {
 .figma-button:hover {
     background-color: #ddd; /* Light gray hover background */
     color: #444; /* Darker grey text color */
-
-
 }
+
 .result-container {
     display: none; /* Initially hide the results section */
     margin-top: 20px;
@@ -250,7 +433,6 @@ h2 {
 .error {
     border: 1px solid red !important;
 }
-
 
 .result-container h2 {
     color: #666; /* Dark gray text color */
@@ -287,4 +469,38 @@ h2 {
 .stats-container p span {
     font-weight: bold;
     color: #333; /* Dark text color */
+}
+
+.stats-container:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    border: 1px solid #ccc; /* Light gray border on hover */
+}
+
+/* New styles for future proposals */
+.future-proposals-container {
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.future-proposals-container h2 {
+    color: #444; /* Darker grey text color */
+    margin-bottom: 10px;
+}
+
+.future-proposals-container p {
+    color: #666; /* Dark gray text color */
+    margin-bottom: 5px;
+}
+
+.future-proposals-container p span {
+    font-weight: bold;
+    color: #333; /* Dark text color */
+}
+
+.future-proposals-container:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    border: 1px solid #ccc; /* Light gray border on hover */
 }
