@@ -1,5 +1,21 @@
 
 
+// Get the checkbox element
+var themeToggle = document.getElementById("theme-toggle-checkbox");
+
+// Listen for changes in the checkbox state
+themeToggle.addEventListener("change", function() {
+  // Check if the checkbox is checked (dark mode enabled)
+  if (this.checked) {
+    // Apply dark theme
+    document.body.classList.add("dark-theme");
+  } else {
+    // Remove dark theme
+    document.body.classList.remove("dark-theme");
+  }
+});
+
+
 // Function to format numerical inputs with commas for thousands separators
 function formatNumericInput(input) {
     var value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
@@ -24,8 +40,8 @@ function generateProposalBoxes() {
         { name: "Proposal 3: Core Working Group Budget", totalVotingPower: 198987006 },
         { name: "Proposal 4: Round #2 of LFG Voting", totalVotingPower: 230849742 },
         { 
-            name: "Proposal 5: Catdet, WEB, and Reddit Working Groups Budget", 
-            totalVotingPower: 192097954,
+            name: "Proposal 5: Catdet, WEB and Reddit Working Groups Budget", 
+            totalVotingPower: 189097954, 
             subProposals: [
                 { name: "Trial Budget: Reddit Working Group", daoTotalVotingPower: 189406552 },
                 { name: "Trial Budget: Catdet Working Group", daoTotalVotingPower: 188577101 },
@@ -34,11 +50,15 @@ function generateProposalBoxes() {
         },
     ];
 
-    pastProposals.forEach(function(proposal, index) {
-        var proposalBox = document.createElement("div");
-        proposalBox.classList.add("proposal");
-        proposalBox.innerHTML = `
+pastProposals.forEach(function(proposal, index) {
+    var proposalBox = document.createElement("div");
+    proposalBox.classList.add("proposal");
+    proposalBox.innerHTML = `
+        <div class="proposal-title-container">
             <h3>${proposal.name}</h3>
+            ${index === 4 ? '<span class="tooltip proposal5-tooltip"><i class="info">i</i><span class="tooltiptext">These 3 different votes count as 1 Proposal in terms of rewards. If you missed any votes, type 0 for Your Voting Power accordingly. </span></span>' : ''}
+        </div>
+
             ${index === 4 ? proposal.subProposals.map((subProposal, subIndex) => `
                 <div class="sub-proposal">
                     <h4>${subProposal.name}</h4>
