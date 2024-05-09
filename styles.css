@@ -72,6 +72,13 @@
     border-color: #333; /* Dark border color */
 }
 
+/* Dark mode hover styles for stats section */
+.dark-theme #stats:hover {
+    background-color: #333; /* Dark gray background on hover */
+    border: 1px solid #555; /* Darker gray border on hover */
+    color: #ddd; /* Light text color */
+}
+
 .dark-theme #stats h2 {
     color: #ddd; /* Light text color */
 }
