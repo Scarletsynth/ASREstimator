@@ -248,7 +248,7 @@ function calculateRewards() {
             <h2>More Stats</h2>
             <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalVotingPower.toLocaleString()}</strong></p>
             <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
-            <p>WEN Reward Pool: <span id="totalRewardPools">[7,5,000,000,000 $WEN]</span></p>
+            <p>WEN Reward Pool: <span id="totalRewardPools">[7,500,000,000 $WEN]</span></p>
             <p>Zeus Reward Pool: <span id="totalRewardPools">[7,500,000 $ZEUS]</span></p>
             <p>Sharky Reward Pool: <span id="totalRewardPools">[750,000 $SHARKY]</span></p>
              <p>UPROCK Reward Pool: <span id="totalRewardPools">[7,500,000 $UPT]</span></p>
