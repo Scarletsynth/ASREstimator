@@ -42,7 +42,7 @@ function generateProposalBoxes() {
                 { name: "Trial Budget: Web Working Group", daoTotalVotingPower: 189310210 }
             ]
         },
-        { name: "Proposal 6: Round #3 of LFG Voting", totalVotingPower: 230849742 } 
+        { name: "Proposal 6: Round #3 of LFG Voting", totalVotingPower: 217498625 } 
     ];
 
     // Loop through past proposals and create HTML elements for each
