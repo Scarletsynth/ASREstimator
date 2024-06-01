@@ -32,6 +32,20 @@
         <p class="calculator-formula">Formula: Reward Share for a Token = (Total Reward Pool of Token ÷ Total voting power exercised by the entire DAO across all proposals) × User's Voting Power exercised across all proposals</p>
     </div>
 
+<div class="perfect-voter-container">
+    <label for="perfectVoterCheckbox" class="perfect-voter-text">I've never missed a vote</label>
+    <input type="checkbox" id="perfectVoterCheckbox" class="perfect-voter-checkbox">
+    <div id="perfectVoterInputContainer" class="perfect-voter-input-container" style="display: none;">
+        <input type="text" id="perfectVoterInput" class="perfect-voter-input" placeholder="Your voting power">
+    </div>
+ <div class="tooltip perfect voter-tooltip">
+        <span class="info">i</span>
+        <span class="tooltiptext"> Only use this if you have voted in ALL proposals, WITH THE SAME voting power. Otherwise, input your voting power below for each proposal accordingly, and type 0 for the votes you did not participate in. </span>
+    </div>
+
+</div>
+
+
     <!-- Container for past proposals -->
     <div id="pastProposals" class="proposal-container">
         <h2>Past Proposals</h2>
@@ -133,7 +147,8 @@
     </div>
 
     <!-- Calculate Rewards button -->
-    <button id="calculateButton" onclick="calculateRewards()" disabled class="figma-button">Calculate Rewards</button>
+<button id="calculateButton" onclick="calculateRewards()" class="figma-button" style="display: none;">Calculate Rewards</button>
+
 
     <!-- JavaScript -->
     <script src="script.js"></script>
