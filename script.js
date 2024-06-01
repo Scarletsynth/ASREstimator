@@ -13,6 +13,48 @@ themeToggle.addEventListener("change", function() {
     }
 });
 
+// Function to handle changes in the perfect voter checkbox
+function handlePerfectVoterCheckbox() {
+    var perfectVoterCheckbox = document.getElementById("perfectVoterCheckbox");
+    var perfectVoterInputContainer = document.getElementById("perfectVoterInputContainer");
+
+    if (perfectVoterCheckbox.checked) {
+        // Show the perfect voter input box
+        perfectVoterInputContainer.style.display = "block";
+    } else {
+        // Hide the perfect voter input box and clear its value
+        perfectVoterInputContainer.style.display = "none";
+        document.getElementById("perfectVoterInput").value = "";
+    }
+}
+
+// Add event listener for changes in the perfect voter checkbox
+document.getElementById("perfectVoterCheckbox").addEventListener("change", handlePerfectVoterCheckbox);
+
+
+// Add event listener for input in the perfect voter input box
+document.getElementById("perfectVoterInput").addEventListener("input", handlePerfectVoterInput);
+
+
+// Function to handle changes in the perfect voter input box
+function handlePerfectVoterInput() {
+    var perfectVoterInput = document.getElementById("perfectVoterInput");
+    var perfectVoterValue = perfectVoterInput.value;
+
+    // Remove non-numeric characters and format the value with commas
+    var formattedValue = perfectVoterValue.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    // Update the perfect voter input box with the formatted value
+    perfectVoterInput.value = formattedValue;
+
+    // Update the input boxes for past and future proposals with the formatted value
+    var proposalInputs = document.querySelectorAll('.proposal input[type="text"]:not([id^="totalVotingPower"])');
+    proposalInputs.forEach(function(input) {
+        input.value = formattedValue;
+    });
+}
+
+
 // Function to format numerical inputs with commas for thousands separators
 function formatNumericInput(input) {
     var value = input.value.replace(/\D/g, ''); // Remove non-numeric characters
@@ -100,11 +142,20 @@ function estimateFutureProposals() {
         });
     }
 
-    // Enable the Calculate Rewards button
-    var calculateButton = document.getElementById("calculateButton");
-    calculateButton.disabled = false;
-    calculateButton.style.display = "inline-block"; // Make it visible
+ // Check if the input box is empty
+    if (isNaN(numFutureProposals) || numFutureProposals < 0) {
+        // Display an error message and return
+        alert("Please enter a valid number of future proposals.");
+        return;
+    }
+
+
+ // Show the Calculate Rewards button
+    document.getElementById("calculateButton").style.display = "block";
+
 }
+
+
 
 // Function to add commas for thousands separators
 function numberWithCommas(x) {
@@ -248,6 +299,7 @@ function calculateRewards() {
                 <h2>More Stats</h2>
                 <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalVotingPower.toLocaleString()}</strong></p>
                 <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
+                <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
                 <p>WEN Reward Pool: <span id="totalRewardPools">[7,500,000,000 $WEN]</span></p>
                 <p>Zeus Reward Pool: <span id="totalRewardPools">[7,500,000 $ZEUS]</span></p>
                 <p>Sharky Reward Pool: <span id="totalRewardPools">[750,000 $SHARKY]</span></p>
