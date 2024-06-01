@@ -39,6 +39,60 @@
     color: #ddd; /* Light text color */
 }
 
+/* Dark theme styles for perfect voter container */
+.dark-theme .perfect-voter-container {
+    background-color: #222; /* Dark background color */
+    color: #ddd; /* Light text color */
+    border: 1px solid #333; /* Dark border color */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Adequate padding */
+    margin-bottom: 20px; /* Spacing between sections */
+    width: fit-content; /* Adjust width to fit content */
+    font-size: 14px; /* font size */
+}
+
+/* Dark theme styles for perfect voter text */
+.dark-theme .perfect-voter-text {
+    color: #ddd; /* Light text color */
+    font-weight: bold; /* Bold text */
+    font-size: 12px; /* Adjust font size */
+}
+
+/* Dark theme styles for perfect voter checkbox */
+.dark-theme .perfect-voter-checkbox {
+    width: 16px; /* Width of the checkbox */
+    height: 16px; /* Height of the checkbox */
+    margin-right: 10px; /* Spacing between checkbox and input */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    background-color: #222; /* Dark background color */
+    border: 1px solid #555; /* Darker border color */
+    border-radius: 3px; /* Rounded corners */
+}
+
+/* Dark theme styles for perfect voter input container */
+.dark-theme .perfect-voter-input-container {
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center items vertically */
+}
+
+/* Dark theme styles for perfect voter input */
+.dark-theme .perfect-voter-input {
+    width: 120px; /* Width of the input */
+    padding: 8px; /* Padding of the input */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #333; /* Dark background color */
+    color: #ddd; /* Light text color */
+}
+
+/* Dark mode hover styles for perfect voter container */
+.dark-theme .perfect-voter-container:hover {
+    background-color: #333; /* Dark gray background on hover */
+    border-color: #555; /* Darker gray border on hover */
+    color: #ddd; /* Light text color */
+}
+
+
 /* Dark theme styles for future proposals */
 .dark-theme .future-proposals-container {
     background-color: #222; /* Dark background color */
@@ -236,6 +290,81 @@ h2 {
     background-color: #f0f0f0; /* Light gray background on hover */
     color: #444; /* Darker grey text color */
 }
+
+
+
+/* Styling for the perfect voter container */
+.perfect-voter-container {
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center items vertically */
+    margin-bottom: 20px; /* Spacing between sections */
+    width: fit-content; /* Adjust width to fit content */
+    background-color: #fff; /* White background */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px; /* Adequate padding */
+    font-size: 14px; /* Font size */
+}
+
+/* Styling for the perfect voter text */
+.perfect-voter-text {
+    margin-right: 10px; /* Spacing between text and checkbox */
+    font-weight: bold; /* Bold text */
+}
+
+/* Styling for the perfect voter checkbox */
+.perfect-voter-checkbox {
+    width: 16px; /* Width of the checkbox */
+    height: 16px; /* Height of the checkbox */
+    margin-right: 10px; /* Spacing between checkbox and input */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Styling for the perfect voter input container */
+.perfect-voter-input-container {
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center items vertically */
+}
+
+/* Styling for the perfect voter input */
+.perfect-voter-input {
+    width: 120px; /* Width of the input */
+    padding: 5px; /* Padding of the input */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* CSS for the tooltip */
+.perfect-voter-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.perfect-voter-tooltip .tooltiptext {
+    visibility: hidden;
+    width: 240px; /* Adjust the width as needed */
+    background-color: #555;
+    color: #fff;
+    text-align: left; /* Align text to the right */
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 100%; /* Adjust the distance to the right */
+    margin-left: 5px; /* Add some space between the tooltip and the input */
+}
+
+.perfect-voter-tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+
+/* Hover effect for perfect voter container */
+.perfect-voter-container:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+}
+
 
 /* Proposal container styles */
 .proposal-container h2 {
