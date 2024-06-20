@@ -119,15 +119,25 @@
             <input type="text" id="totalVotingPowerProposal6" value="230849742" disabled>
         </div>
 
+<!-- Proposal 7 -->
+        <div class="proposal proposal7">
+            <h3>Uplink Working Group Budget</h3>
+            <label for="votingPowerProposal6">Your Voting Power:</label>
+            <input type="text" id="votingPowerProposal7" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
+            <label for="totalVotingPowerProposal7">Total Voting Power:</label>
+            <input type="text" id="totalVotingPowerProposal7" value="177958477" disabled>
+        </div>
+
+
     </div>
 
-    <p class="proposal-description">There will be more proposals before the end of June. To better estimate your reward share, you will have to estimate the number of proposals left, the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for each future proposal. We encourage you to experiment with different values.</p>
+    <p class="proposal-description">There might be more proposals before the end of June. To better estimate your reward share, you will have to estimate the number of proposals left (if any), the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for any future proposal. We encourage you to experiment with different values.</p>
 
     <!-- Container for future proposals -->
 <div id="futureProposals" class="proposal-container future-proposals-container">
     <h2>Estimate Future Proposals</h2>
     <label for="numFutureProposals" class="future-proposal-label">How many MORE proposals do you estimate we will vote on until the end of June?</label>
-       <input type="number" id="numFutureProposals" class="future-proposal-input" placeholder="most likely 2">
+       <input type="number" id="numFutureProposals" class="future-proposal-input" placeholder="0 or 1">
     <div class="tooltip estimate-tooltip">
         <span class="info">i</span>
         <span class="tooltiptext"> If you want to estimate your current rewards, assuming NO future votes, please enter "0", click Estimate Future Proposals, and then click Calculate.</span>
