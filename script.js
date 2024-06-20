@@ -84,7 +84,9 @@ function generateProposalBoxes() {
                 { name: "Trial Budget: Web Working Group", daoTotalVotingPower: 189310210 }
             ]
         },
-        { name: "Proposal 6: Round #3 of LFG Voting", totalVotingPower: 217498625 } 
+        { name: "Proposal 6: Round #3 of LFG Voting", totalVotingPower: 217498625 },
+
+       { name: "Proposal 7: Uplink Working Group Budget", totalVotingPower: 177958477 }
     ];
 
     // Loop through past proposals and create HTML elements for each
@@ -202,7 +204,7 @@ function calculateRewards() {
     if (allFieldsFilled) {
         // Calculate total voting power across all past proposals
         var totalVotingPower = 0;
-        for (var i = 1; i <= 6; i++) { // Updated to include Proposal 6
+        for (var i = 1; i <= 7; i++) { // Updated to include Proposal 7
             var input = document.getElementById(`totalVotingPowerProposal${i}`);
             if (input) {
                 var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
@@ -242,7 +244,7 @@ function calculateRewards() {
 
         // Calculate total user voting power
         var totalYourVotingPower = 0;
-        for (var i = 1; i <= 6; i++) { // Updated to include Proposal 6
+        for (var i = 1; i <= 7; i++) { // Updated to include Proposal 7
             var input = document.getElementById(`votingPowerProposal${i}`);
             if (input) {
                 var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
