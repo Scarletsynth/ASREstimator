@@ -117,45 +117,12 @@ function generateProposalBoxes() {
     });
 }
 
-// Function to estimate future proposals based on user input
-function estimateFutureProposals() {
-    var numFutureProposals = parseInt(document.getElementById("numFutureProposals").value);
 
-    var futureProposalBoxesDiv = document.getElementById("futureProposalBoxes");
-    futureProposalBoxesDiv.innerHTML = ""; // Clear previous future proposal boxes
-
-    for (var i = 1; i <= numFutureProposals; i++) { 
-        var futureProposalBox = document.createElement("div");
-        futureProposalBox.classList.add("proposal");
-        futureProposalBox.innerHTML = `
-            <h3>Future Proposal ${i}</h3>
-            <label for="votingPowerFutureProposal${i}">Your Voting Power:</label>
-            <input type="text" id="votingPowerFutureProposal${i}" class="future-proposal-input" placeholder="How much will you vote with?" oninput="formatNumericInput(this)">
-            <label for="totalVotingPowerFutureProposal${i}">DAO Total Voting Power:</label>
-            <input type="text" id="totalVotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="Enter the DAO Total voting power for this proposal (suggested 250,000,000)" oninput="formatNumericInput(this)">
-        `;
-        futureProposalBoxesDiv.appendChild(futureProposalBox); 
-        // Add event listeners for hover effect to the newly generated proposal box
-        futureProposalBox.addEventListener('mouseover', function() {
-            this.classList.add('hovered');
-        });
-        futureProposalBox.addEventListener('mouseout', function() {
-            this.classList.remove('hovered');
-        });
-    }
-
- // Check if the input box is empty
-    if (isNaN(numFutureProposals) || numFutureProposals < 0) {
-        // Display an error message and return
-        alert("Please enter a valid number of future proposals.");
-        return;
-    }
 
 
  // Show the Calculate Rewards button
     document.getElementById("calculateButton").style.display = "block";
 
-}
 
 
 
@@ -181,19 +148,7 @@ function calculateRewards() {
         }
     });
 
-    // Check future proposal inputs
-    var futureProposalInputs = document.querySelectorAll('.future-proposal-input');
-    futureProposalInputs.forEach(function(input) {
-        if (input.value.trim() === '') {
-            allFieldsFilled = false;
-            // Apply error styling to the input
-            input.classList.add('error');
-        } else {
-            // Remove error styling if present
-            input.classList.remove('error');
-        }
-    });
-
+ 
     // If there are empty fields, display a warning message and return
     if (!allFieldsFilled) {
         alert('Please fill in all required fields.');
@@ -219,16 +174,7 @@ function calculateRewards() {
         var averageProposal5DaoVotingPower = (subProposal1DaoVotingPower + subProposal2DaoVotingPower + subProposal3DaoVotingPower) / 3;
         totalVotingPower += averageProposal5DaoVotingPower;
 
-        // Calculate total voting power for future proposals
-        var numFutureProposals = parseInt(document.getElementById("numFutureProposals").value) || 0;
-        for (var i = 1; i <= numFutureProposals; i++) {
-            var input = document.getElementById(`totalVotingPowerFutureProposal${i}`);
-            if (input) {
-                var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
-                totalVotingPower += votingPower;
-            }
-        }
-
+     
         // Define power and reward pools
         var totalJupTokensAllocated = 50000000; // Total number of JUP tokens allocated
         var totalWENTokensAllocated = 7500000000; // Total number of WEN tokens allocated
@@ -259,14 +205,7 @@ function calculateRewards() {
         var averageProposal5UserVotingPower = (subProposal1UserVotingPower + subProposal2UserVotingPower + subProposal3UserVotingPower) / 3;
         totalYourVotingPower += averageProposal5UserVotingPower;
 
-        for (var i = 1; i <= numFutureProposals; i++) {
-            var input = document.getElementById(`votingPowerFutureProposal${i}`);
-            if (input) {
-                var votingPower = parseFloat(input.value.replace(/\D/g, '')) || 0;
-                totalYourVotingPower += votingPower;
-            }
-        }
-
+       
         // Calculate reward shares for the user
         var jupRewardShare = JUPrewardPerVotingPowerUnit * totalYourVotingPower;
         var WENRewardShare = WENrewardPerVotingPowerUnit * totalYourVotingPower;
@@ -299,12 +238,13 @@ function calculateRewards() {
         if (statsDiv) {
             statsDiv.innerHTML = `
                 <h2>More Stats</h2>
-                <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalVotingPower.toLocaleString()}</strong></p>
+                <p>Total Voting Power Exercised by the Entire DAO:
+                <strong>${totalVotingPower.toLocaleString()}</strong></p>
                 <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
                 <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
                 <p>WEN Reward Pool: <span id="totalRewardPools">[7,500,000,000 $WEN]</span></p>
                 <p>Zeus Reward Pool: <span id="totalRewardPools">[7,500,000 $ZEUS]</span></p>
-                <p>Sharky Reward Pool: <span id="totalRewardPools">[750,000 $SHARKY]</span></p>
+                <p>Sharky Reward Pool: <span id="totalRewardPools">[750,000 $SHARK]</span></p>
                 <p>UPROCK Reward Pool: <span id="totalRewardPools">[7,500,000 $UPT]</span></p>
                 <!-- Add more stats as needed -->
             `;
