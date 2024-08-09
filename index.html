@@ -26,11 +26,17 @@
 
 
     <div class="description">
-        <p class="calculator-description">This rewards calculator provides estimations based on data inputted by users. Please note that it is impossible for the calculator to be entirely precise due to the uncertainty surrounding the remaining number of proposals, and votes to be casted in each, until the end of June. 
+        <p class="calculator-description">This rewards calculator provides estimations based on data inputted by users. Please note that it is impossible for the calculator to be entirely precise due to the uncertainty surrounding the remaining number of proposals, and votes to be casted in each, until the end of particular quarter. 
         While we strive to provide accurate estimations, and the data is updated after every new vote, factors such as the number of proposals and votes casted in each may fluctuate, impacting the final rewards distribution. Users should use the calculator as a guide and understand that actual rewards may vary.</p>
 
-        <p class="calculator-formula">Formula: Reward Share for a Token = (Total Reward Pool of Token ÷ Total voting power exercised by the entire DAO across all proposals) × User's Voting Power exercised across all proposals</p>
+        <p class="calculator-formula">Formula: Reward Share for a Token = (Your Voting Power exercised across all proposals ÷ Total Voting Power DAO exercised across all proposals) × Total Reward Pool for the Token</p>
+
     </div>
+
+   <div class="collapsible-container">
+    <!-- Collapsible Section 1: March to June -->
+    <button class="collapsible"><span class="section-title">Q1: March to June</span></button>
+    <div class="collapsible-content">
 
 <div class="perfect-voter-container">
     <label for="perfectVoterCheckbox" class="perfect-voter-text">I've never missed a vote</label>
@@ -129,10 +135,9 @@
         </div>
 
 
-    </div>
 
-   
-    <!-- Container for displaying results -->
+    </div>
+  <!-- Container for displaying results -->
     <div id="results" class="result-container"></div>
 
     <!-- Container for stats -->
@@ -142,9 +147,67 @@
 
     <!-- Calculate Rewards button -->
 <button id="calculateButton" onclick="calculateRewards()" class="figma-button" style="display: none;">Calculate Rewards</button>
+</div>
 
 
+</div>
+   
+
+<!-- Collapsible Section 2: July to September -->
+    <button class="collapsible"><span class="section-title">Q2: July to September</span></button>
+    <div class="collapsible-content">
+
+    <!-- Container for past proposals -->
+    <div id="q2PastProposals" class="proposal-container">
+        <h2>Past Proposals</h2>
+        <!-- Proposal 1 -->
+        <div class="proposal proposal1">
+            <h3>J4J #1: Supply Reduction Proposal</h3>
+            <label for="q2VotingPowerProposal1">Your Voting Power:</label>
+            <input type="text" id="q2VotingPowerProposal1" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
+            <label for="q2TotalVotingPowerProposal1">Total Voting Power:</label>
+            <input type="text" id="q2TotalVotingPowerProposal1" value="274,033,926 " disabled>
+        </div>
+
+            </div>
+
+  <p class="proposal-description">There will be more proposals before the end of September. To better estimate your reward share, you will have to estimate the number of proposals left, the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for each future proposal. We encourage you to experiment with different values.</p>
+
+
+<!-- Section for estimating future proposals -->
+<div id="q2FutureEstimation" class="future-estimation-container">
+    <label for="q2NumFutureProposals">How many MORE proposals do you estimate we will vote on before the end of the quarter?</label>
+    <input type="number" id="q2NumFutureProposals" placeholder="most likely 5">
+<div class="tooltip estimate-tooltip">
+        <span class="info">i</span>
+        <span class="tooltiptext"> If you want to estimate your current rewards, assuming NO future votes, please enter "0", click Estimate Future Proposals, and then click Calculate.</span>
+    </div>
+
+    <!-- Button to estimate future proposals -->
+    <button id="estimateFutureProposalsButton" class="estimate-future-proposals-btn" onclick="estimateFutureProposals()">Estimate Future Proposals</button>
+</div>
+
+<!-- Section for displaying future proposals -->
+<div id="q2FutureProposalBoxes" class="future-proposal-boxes-container">
+    <!-- Future proposal boxes will be generated here -->
+</div>
+
+<!-- Button to trigger calculation -->
+<button id="calculateQ2RewardsButton" class="calculate-q2-rewards-btn" style="display: none;" onclick="calculateQ2Rewards()">Calculate Q2 Rewards</button>
+
+<div class="q2-results" style="display: none;">
+    <!-- Results for Q2 will be inserted here -->
+</div>
+
+<div class="q2-stats" style="display: none;">
+    <!-- Stats for Q2 will be inserted here -->
+</div>
+
+
+
+  
     <!-- JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
+    </div>
