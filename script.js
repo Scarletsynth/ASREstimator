@@ -60,11 +60,13 @@ function handlePerfectVoterInput() {
 
     perfectVoterInput.value = formattedValue;
 
-    var proposalInputs = document.querySelectorAll('.proposal input[type="text"]:not([id^="totalVotingPower"])');
+    // Select all proposal input fields within the collapsible-container (Q1 section)
+    var proposalInputs = document.querySelectorAll('.collapsible-container .proposal input[type="text"]:not([id^="totalVotingPower"])');
     proposalInputs.forEach(function(input) {
         input.value = formattedValue;
     });
 }
+
 
 // Function to format numerical inputs with commas for thousands separators
 function formatNumericInput(input) {
@@ -137,25 +139,26 @@ function numberWithCommas(x) {
 }
 console.time('calculateRewards');
 
+// Q1: Calculate Rewards for Q1 Section
 function calculateRewards() {
-    var allFieldsFilled = true;
+    var allFieldsFilledQ1 = true;
 
-    var pastProposalInputs = document.querySelectorAll('.proposal input[type="text"]');
-    pastProposalInputs.forEach(function(input) {
+    var pastProposalInputsQ1 = document.querySelectorAll('#pastProposals .proposal input[type="text"]');
+    pastProposalInputsQ1.forEach(function(input) {
         if (input.value.trim() === '') {
-            allFieldsFilled = false;
+            allFieldsFilledQ1 = false;
             input.classList.add('error');
         } else {
             input.classList.remove('error');
         }
     });
 
-    if (!allFieldsFilled) {
-        alert('Please fill in all required fields.');
+    if (!allFieldsFilledQ1) {
+        alert('Please fill in all required fields in Q1.');
         return;
     }
 
-    if (allFieldsFilled) {
+    if (allFieldsFilledQ1) {
         var totalJupTokensAllocated = 50000000;
         var totalWENTokensAllocated = 7500000000;
         var totalZeusTokensAllocated = 7500000;
@@ -231,6 +234,7 @@ function calculateRewards() {
                 <p>Sharky Reward Share: <strong>${totalRewards.SHARK.toFixed(4)} Sharky tokens</strong></p>
                 <p>UPROCK Reward Share: <strong>${totalRewards.UPROCK.toFixed(4)} UPROCK tokens</strong></p>
                 <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+                <p>The claim window for these rewards has closed.</p>
             `;
         }
 
@@ -277,7 +281,8 @@ function generateQ2ProposalBoxes() {
 
     // Define Q2 past proposals with their respective total voting power
     var q2PastProposals = [
-        { name: "J4J #1: Supply Reduction Proposal", totalVotingPower: 274033926 }
+        { name: "J4J #1: Supply Reduction Proposal", totalVotingPower: 274033926 },
+        { name: "Jupiter DAO: Microgrants Proposal", totalVotingPower: 267190808 }
     ];
 
     // Loop through Q2 past proposals and create HTML elements for each
