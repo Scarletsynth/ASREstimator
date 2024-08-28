@@ -29,16 +29,14 @@
         <p class="calculator-description">This rewards calculator provides estimations based on data inputted by users. Please note that it is impossible for the calculator to be entirely precise due to the uncertainty surrounding the remaining number of proposals, and votes to be casted in each, until the end of particular quarter. 
         While we strive to provide accurate estimations, and the data is updated after every new vote, factors such as the number of proposals and votes casted in each may fluctuate, impacting the final rewards distribution. Users should use the calculator as a guide and understand that actual rewards may vary.</p>
 
-        <p class="calculator-formula"> <p class="calculator-formula"> Formula: 
+        <p class="calculator-formula"> Formula: 
 
-Divide the total reward pool by the total number of proposals:
 Total Reward Pool per Proposal
 =
 Total Reward Pool
 ÷
 Total Number of Proposals.
 
-For each proposal, calculate your reward using:
 Your Reward for Each Proposal
 =
 (
@@ -48,10 +46,10 @@ Total Voting Power of the Proposal
 )
 ×
 Total Reward Pool per Proposal.
-Add up the rewards from each proposal to get your total JUP reward share:
 Total JUP Reward Share
 =
 Sum of All Individual Proposals Rewards.
+
 </p>
 
     </div>
@@ -169,7 +167,7 @@ Sum of All Individual Proposals Rewards.
     </div>
 
     <!-- Calculate Rewards button -->
-<button id="calculateButton" onclick="calculateRewards()" class="figma-button" style="display: none;">Calculate Rewards</button>
+<button id="calculateButton" onclick="calculateRewards()" class="figma-button" style="display: none;">Calculate Rewards Q1</button>
 </div>
 
 
@@ -183,13 +181,25 @@ Sum of All Individual Proposals Rewards.
     <!-- Container for past proposals -->
     <div id="q2PastProposals" class="proposal-container">
         <h2>Past Proposals</h2>
-        <!-- Proposal 1 -->
+
+ <!--Past Proposal 1 -->
         <div class="proposal proposal1">
             <h3>J4J #1: Supply Reduction Proposal</h3>
             <label for="q2VotingPowerProposal1">Your Voting Power:</label>
             <input type="text" id="q2VotingPowerProposal1" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
             <label for="q2TotalVotingPowerProposal1">Total Voting Power:</label>
             <input type="text" id="q2TotalVotingPowerProposal1" value="274,033,926 " disabled>
+ </div>
+
+
+<!--Past Proposal 2 -->
+        <div class="proposal proposal2">
+            <h3>Jupiter DAO: Microgrants Proposal</h3>
+            <label for="q2VotingPowerProposal1">Your Voting Power:</label>
+            <input type="text" id="q2VotingPowerProposal1" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
+            <label for="q2TotalVotingPowerProposal1">Total Voting Power:</label>
+            <input type="text" id="q2TotalVotingPowerProposal1" value="267,190,808" disabled>
+ 
         </div>
 
             </div>
