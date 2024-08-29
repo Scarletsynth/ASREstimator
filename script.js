@@ -139,8 +139,21 @@ function numberWithCommas(x) {
 }
 console.time('calculateRewards');
 
-// Q1: Calculate Rewards for Q1 Section
-function calculateRewards() {
+// Function to fetch price for a specific token
+async function fetchTokenPrice(tokenId, vsToken = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v') {
+    try {
+        const response = await fetch(`https://price.jup.ag/v6/price?ids=${tokenId}&vsToken=${vsToken}`);
+        const data = await response.json();
+        const price = data.data[tokenId].price;
+        return price;
+    } catch (error) {
+        console.error(`Error fetching price for token ${tokenId}:`, error);
+        return null;
+    }
+}
+
+// Function to calculate rewards and display results
+async function calculateRewards() {
     var allFieldsFilledQ1 = true;
 
     var pastProposalInputsQ1 = document.querySelectorAll('#pastProposals .proposal input[type="text"]');
@@ -224,26 +237,41 @@ function calculateRewards() {
             UPROCK: totalYourVotingPower.reduce((sum, vp, index) => sum + vp * rewardPerVotingPowerUnit[index].UPROCK, 0)
         };
 
+        // Fetch prices for all tokens
+        const jupPrice = await fetchTokenPrice('JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN');
+        const wenPrice = await fetchTokenPrice('WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk'); 
+        const zeusPrice = await fetchTokenPrice('ZEUS1aR7aX8DFFJf5QjWj2ftDDdNTroMNGo8YoQm3Gq');  
+        const sharkPrice = await fetchTokenPrice('SHARKSYJjqaNyxVfrpnBN9pjgkhwDhatnMyicWPnr1s');  
+        const uprockPrice = await fetchTokenPrice('UPTx1d24aBWuRgwxVnFmX4gNraj3QGFzL3QqBgxtWQG');  
+
+        const rewardValuesInUSD = {
+            JUP: jupPrice ? (totalRewards.JUP * jupPrice).toFixed(4) : 'N/A',
+            WEN: wenPrice ? (totalRewards.WEN * wenPrice).toFixed(4) : 'N/A',
+            ZEUS: zeusPrice ? (totalRewards.ZEUS * zeusPrice).toFixed(4) : 'N/A',
+            SHARK: sharkPrice ? (totalRewards.SHARK * sharkPrice).toFixed(4) : 'N/A',
+            UPROCK: uprockPrice ? (totalRewards.UPROCK * uprockPrice).toFixed(4) : 'N/A'
+        };
+
         var resultsDiv = document.getElementById("results");
         if (resultsDiv) {
             resultsDiv.innerHTML = `
-                <h2>Your Rewards Estimate</h2>
-                <p>JUP Reward Share: <strong>${totalRewards.JUP.toFixed(4)} JUP tokens</strong></p>
-                <p>WEN Reward Share: <strong>${totalRewards.WEN.toFixed(4)} WEN tokens</strong></p>
-                <p>Zeus Reward Share: <strong>${totalRewards.ZEUS.toFixed(4)} Zeus tokens</strong></p>
-                <p>Sharky Reward Share: <strong>${totalRewards.SHARK.toFixed(4)} Sharky tokens</strong></p>
-                <p>UPROCK Reward Share: <strong>${totalRewards.UPROCK.toFixed(4)} UPROCK tokens</strong></p>
-                <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
-                <p>The claim window for these rewards has closed.</p>
-            `;
-        }
+                     <h2>Your Rewards Estimate</h2>
+        <p>JUP Reward Share: <strong>${totalRewards.JUP.toFixed(4)} JUP tokens</strong> <strong>(${rewardValuesInUSD.JUP} USDC)</strong></p>
+        <p>WEN Reward Share: <strong>${totalRewards.WEN.toFixed(4)} WEN tokens</strong> <strong>(${rewardValuesInUSD.WEN} USDC)</strong></p>
+        <p>Zeus Reward Share: <strong>${totalRewards.ZEUS.toFixed(4)} Zeus tokens</strong> <strong>(${rewardValuesInUSD.ZEUS} USDC)</strong></p>
+        <p>Sharky Reward Share: <strong>${totalRewards.SHARK.toFixed(4)} Sharky tokens</strong> <strong>(${rewardValuesInUSD.SHARK} USDC)</strong></p>
+        <p>UPROCK Reward Share: <strong>${totalRewards.UPROCK.toFixed(4)} UPROCK tokens</strong> <strong>(${rewardValuesInUSD.UPROCK} USDC)</strong></p>
+        <p><em>Real-time USDC values powered by Jupiter Price API.</a></em></p>
+        <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+        <p>The claim window for these rewards has closed.</p>
+    `;
+}
 
         var statsDiv = document.getElementById("stats");
         if (statsDiv) {
             statsDiv.innerHTML = `
                 <h2>More Stats</h2>
-                <p>Total Voting Power Exercised by the Entire DAO:
-                <strong>${pastProposals.reduce((sum, proposal) => sum + proposal.totalVotingPower, 0).toLocaleString()}</strong></p>
+                <p>Total Voting Power Exercised by the Entire DAO: <strong>${pastProposals.reduce((sum, proposal) => sum + proposal.totalVotingPower, 0).toLocaleString()}</strong></p>
                 <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.reduce((sum, vp) => sum + vp, 0).toLocaleString()}</strong></p>
                 <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
                 <p>WEN Reward Pool: <span id="totalRewardPools">[7,500,000,000 $WEN]</span></p>
@@ -252,7 +280,6 @@ function calculateRewards() {
                 <p>UPROCK Reward Pool: <span id="totalRewardPools">[7,500,000 $UPT]</span></p>
             `;
         }
-
         document.getElementById("results").style.display = "block";
         document.getElementById("stats").style.display = "block";
     }
@@ -348,7 +375,23 @@ function estimateFutureProposals() {
     generateQ2FutureProposalBoxes();
 }
 
-function calculateQ2Rewards() {
+
+
+// Function to fetch JUP price in USDC
+async function fetchJupPrice() {
+    try {
+        const response = await fetch('https://price.jup.ag/v6/price?ids=JUP&vsToken=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // USDC mint address
+        const data = await response.json();
+        const jupPrice = data.data['JUP'].price;
+        return jupPrice;
+    } catch (error) {
+        console.error('Error fetching JUP price:', error);
+        return null;
+    }
+}
+
+// Function to calculate and display Q2 rewards
+async function calculateQ2Rewards() {
     var resultsDiv = document.querySelector(".q2-results");
     var statsDiv = document.querySelector(".q2-stats");
 
@@ -441,13 +484,19 @@ function calculateQ2Rewards() {
         }
     }
 
+    // Fetch JUP price in USDC and calculate the equivalent value in USD
+    const jupPrice = await fetchJupPrice();
+    const rewardValueInUSD = jupPrice ? (totalRewardShare * jupPrice).toFixed(4) : 'N/A';
+
     // Show the results section after calculation
-    resultsDiv.style.display = "block";
-    resultsDiv.innerHTML = `
-        <h2>Your Rewards Estimate</h2>
-        <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong></p>
-        <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
-    `;
+resultsDiv.style.display = "block";
+resultsDiv.innerHTML = `
+    <h2>Your Rewards Estimate</h2>
+    <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong>  <p><em>Real-time USDC values powered by Jupiter Price API.</a></em></p> 
+    <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+    <p>ASR rewards will be distributed in October.</p>
+`;
+
 
     // Show the stats section after calculation
     statsDiv.style.display = "block";
