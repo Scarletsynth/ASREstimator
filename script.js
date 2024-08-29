@@ -244,24 +244,35 @@ async function calculateRewards() {
         const sharkPrice = await fetchTokenPrice('SHARKSYJjqaNyxVfrpnBN9pjgkhwDhatnMyicWPnr1s');  
         const uprockPrice = await fetchTokenPrice('UPTx1d24aBWuRgwxVnFmX4gNraj3QGFzL3QqBgxtWQG');  
 
-        const rewardValuesInUSD = {
-            JUP: jupPrice ? (totalRewards.JUP * jupPrice).toFixed(4) : 'N/A',
-            WEN: wenPrice ? (totalRewards.WEN * wenPrice).toFixed(4) : 'N/A',
-            ZEUS: zeusPrice ? (totalRewards.ZEUS * zeusPrice).toFixed(4) : 'N/A',
-            SHARK: sharkPrice ? (totalRewards.SHARK * sharkPrice).toFixed(4) : 'N/A',
-            UPROCK: uprockPrice ? (totalRewards.UPROCK * uprockPrice).toFixed(4) : 'N/A'
-        };
+        // Ensure that all values are clean numbers
+const rewardValuesInUSD = {
+    JUP: jupPrice ? parseFloat((totalRewards.JUP * jupPrice).toFixed(4)) : NaN,
+    WEN: wenPrice ? parseFloat((totalRewards.WEN * wenPrice).toFixed(4)) : NaN,
+    ZEUS: zeusPrice ? parseFloat((totalRewards.ZEUS * zeusPrice).toFixed(4)) : NaN,
+    SHARK: sharkPrice ? parseFloat((totalRewards.SHARK * sharkPrice).toFixed(4)) : NaN,
+    UPROCK: uprockPrice ? parseFloat((totalRewards.UPROCK * uprockPrice).toFixed(4)) : NaN
+};
+
+// Calculate total USDC value by summing only valid numbers
+const totalUSDCValue = (
+    (isNaN(rewardValuesInUSD.JUP) ? 0 : rewardValuesInUSD.JUP) +
+    (isNaN(rewardValuesInUSD.WEN) ? 0 : rewardValuesInUSD.WEN) +
+    (isNaN(rewardValuesInUSD.ZEUS) ? 0 : rewardValuesInUSD.ZEUS) +
+    (isNaN(rewardValuesInUSD.SHARK) ? 0 : rewardValuesInUSD.SHARK) +
+    (isNaN(rewardValuesInUSD.UPROCK) ? 0 : rewardValuesInUSD.UPROCK)
+).toFixed(2); // Adjust the number of decimal places as needed
+
 
         var resultsDiv = document.getElementById("results");
         if (resultsDiv) {
             resultsDiv.innerHTML = `
-                     <h2>Your Rewards Estimate</h2>
+        <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue} USDC</strong></h2>
         <p>JUP Reward Share: <strong>${totalRewards.JUP.toFixed(4)} JUP tokens</strong> <strong>(${rewardValuesInUSD.JUP} USDC)</strong></p>
         <p>WEN Reward Share: <strong>${totalRewards.WEN.toFixed(4)} WEN tokens</strong> <strong>(${rewardValuesInUSD.WEN} USDC)</strong></p>
         <p>Zeus Reward Share: <strong>${totalRewards.ZEUS.toFixed(4)} Zeus tokens</strong> <strong>(${rewardValuesInUSD.ZEUS} USDC)</strong></p>
         <p>Sharky Reward Share: <strong>${totalRewards.SHARK.toFixed(4)} Sharky tokens</strong> <strong>(${rewardValuesInUSD.SHARK} USDC)</strong></p>
         <p>UPROCK Reward Share: <strong>${totalRewards.UPROCK.toFixed(4)} UPROCK tokens</strong> <strong>(${rewardValuesInUSD.UPROCK} USDC)</strong></p>
-        <p><em>Real-time USDC values powered by Jupiter Price API.</a></em></p>
+        <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</a></em></p>
         <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
         <p>The claim window for these rewards has closed.</p>
     `;
@@ -485,14 +496,18 @@ async function calculateQ2Rewards() {
     }
 
     // Fetch JUP price in USDC and calculate the equivalent value in USD
-    const jupPrice = await fetchJupPrice();
-    const rewardValueInUSD = jupPrice ? (totalRewardShare * jupPrice).toFixed(4) : 'N/A';
+const jupPrice = await fetchJupPrice();
+const rewardValueInUSD = jupPrice ? parseFloat((totalRewardShare * jupPrice).toFixed(4)) : NaN;
+
+// Ensure totalUSDCValue is handled properly (even if NaN)
+const totalUSDCValue_Q2 = isNaN(rewardValueInUSD) ? 0 : rewardValueInUSD;
 
     // Show the results section after calculation
 resultsDiv.style.display = "block";
 resultsDiv.innerHTML = `
-    <h2>Your Rewards Estimate</h2>
-    <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong>  <p><em>Real-time USDC values powered by Jupiter Price API.</a></em></p> 
+    <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue_Q2.toFixed(4)} USDC</strong></h2>
+    <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong>  
+    <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</a></em></p> 
     <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
     <p>ASR rewards will be distributed in October.</p>
 `;
