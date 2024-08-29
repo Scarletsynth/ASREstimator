@@ -29,7 +29,7 @@
         <p class="calculator-description">This rewards calculator provides estimations based on data inputted by users. Please note that it is impossible for the calculator to be entirely precise due to the uncertainty surrounding the remaining number of proposals, and votes to be casted in each, until the end of particular quarter. 
         While we strive to provide accurate estimations, and the data is updated after every new vote, factors such as the number of proposals and votes casted in each may fluctuate, impacting the final rewards distribution. Users should use the calculator as a guide and understand that actual rewards may vary.</p>
 
-        <p class="calculator-formula"> Formula: 
+        <p class="calculator-formula">Updated Formula: 
 
 Total Reward Pool per Proposal
 =
@@ -46,7 +46,7 @@ Total Voting Power of the Proposal
 )
 ×
 Total Reward Pool per Proposal.
-Total JUP Reward Share
+Total Reward Share
 =
 Sum of All Individual Proposals Rewards.
 
@@ -228,8 +228,10 @@ Sum of All Individual Proposals Rewards.
 <!-- Button to trigger calculation -->
 <button id="calculateQ2RewardsButton" class="calculate-q2-rewards-btn" style="display: none;" onclick="calculateQ2Rewards()">Calculate Q2 Rewards</button>
 
-<div class="q2-results" style="display: none;">
-    <!-- Results for Q2 will be inserted here -->
+<div class="q2-results" style="display:none;">
+    <h2>Your Rewards Estimate</h2>
+    <p>JUP Reward Share: <strong id="jupRewardTokens">0 JUP tokens</strong> <span id="jupRewardValueInUSD" style="font-weight: bold;"></span></p>
+    <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
 </div>
 
 <div class="q2-stats" style="display: none;">
