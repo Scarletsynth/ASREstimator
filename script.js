@@ -112,15 +112,15 @@ function generateProposalBoxes() {
                 <div class="sub-proposal">
                     <h4>${subProposal.name}</h4>
                     <label for="votingPowerSubProposal${subIndex + 1}">Your Voting Power:</label>
-                    <input type="number" id="votingPowerSubProposal${subIndex + 1}" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
+                    <input type="text" id="votingPowerSubProposal${subIndex + 1}" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
                     <label for="totalVotingPowerSubProposal${subIndex + 1}">DAO Total Voting Power:</label>
-                    <input type="number" id="totalVotingPowerSubProposal${subIndex + 1}" value="${subProposal.daoTotalVotingPower.toLocaleString()}" disabled>
+                    <input type="text" id="totalVotingPowerSubProposal${subIndex + 1}" value="${subProposal.daoTotalVotingPower.toLocaleString()}" disabled>
                 </div>
             `).join('') : `
                 <label for="votingPowerProposal${index + 1}">Your Voting Power:</label>
-                <input type="number" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
+                <input type="text" id="votingPowerProposal${index + 1}" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
                 <label for="totalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
-                <input type="number" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
+                <input type="text" id="totalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
             `}
         `;
         proposalBoxesDiv.appendChild(proposalBox);
@@ -330,9 +330,9 @@ function generateQ2ProposalBoxes() {
         proposalBox.innerHTML = `
             <h3>${proposal.name}</h3>
             <label for="q2VotingPowerProposal${index + 1}">Your Voting Power:</label>
-            <input type="number" id="q2VotingPowerProposal${index + 1}" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
+            <input type="text" id="q2VotingPowerProposal${index + 1}" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
             <label for="q2TotalVotingPowerProposal${index + 1}">DAO Total Voting Power:</label>
-            <input type="number" id="q2TotalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
+            <input type="text" id="q2TotalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
         `;
         q2ProposalBoxesDiv.appendChild(proposalBox);
     });
@@ -362,9 +362,9 @@ function generateQ2FutureProposalBoxes() {
         futureProposalBox.innerHTML = `
             <h3>Future Proposal ${i}</h3>
             <label for="q2VotingPowerFutureProposal${i}">Your Voting Power:</label>
-            <input type="number" id="q2VotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="How much will you vote with?" oninput="formatNumericInput(this)">
+            <input type="text" id="q2VotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="How much will you vote with?" oninput="formatNumericInput(this)">
             <label for="q2TotalVotingPowerFutureProposal${i}">DAO Total Voting Power:</label>
-            <input type="number" id="q2TotalVotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="Enter the DAO Total voting power for this proposal" oninput="formatNumericInput(this)">
+            <input type="text" id="q2TotalVotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="Enter the DAO Total voting power for this proposal" oninput="formatNumericInput(this)">
         `;
         futureProposalBoxesDiv.appendChild(futureProposalBox);
 
