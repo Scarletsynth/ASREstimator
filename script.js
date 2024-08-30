@@ -56,8 +56,13 @@ function handlePerfectVoterInput() {
     var perfectVoterInput = document.getElementById("perfectVoterInput");
     var perfectVoterValue = perfectVoterInput.value;
 
-    var formattedValue = perfectVoterValue.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    // Remove commas for internal value handling
+    var numericValue = perfectVoterValue.replace(/,/g, '').replace(/\D/g, '');
 
+    // Format value with commas for display
+    var formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    // Update the input value with formatted value for display
     perfectVoterInput.value = formattedValue;
 
     // Select all proposal input fields within the collapsible-container (Q1 section)
@@ -317,21 +322,14 @@ function formatNumericInput(input) {
 
 // Function to format numbers with commas based on locale
 function formatNumberWithCommas(x) {
-    // Create a new Intl.NumberFormat object to handle locale-specific formatting
     var formatter = new Intl.NumberFormat();
     return formatter.format(x);
 }
 
-// Function to handle parsing of formatted input values, accommodating different locales
+// Function to handle parsing of formatted input values
 function parseFormattedInput(value) {
-    // Create a new Intl.NumberFormat object to handle locale-specific formatting
-    var formatter = new Intl.NumberFormat();
-    
-    // Get the thousands separator from the locale
-    var thousandsSeparator = formatter.format(1111).replace(/\d/g, '');
-    
-    // Replace the thousands separator with nothing and parse the number
-    return parseFloat(value.replace(new RegExp('\\' + thousandsSeparator, 'g'), '')) || 0;
+    var cleanedValue = value.replace(/\D/g, '');
+    return parseFloat(cleanedValue) || 0;
 }
 
 // Function to generate Q2 proposal input boxes dynamically
@@ -363,6 +361,7 @@ function generateQ2ProposalBoxes() {
     });
 }
 
+
 // Function to generate future proposal boxes based on user input
 function generateQ2FutureProposalBoxes() {
     var numFutureProposals = parseInt(document.getElementById("q2NumFutureProposals").value);
@@ -380,6 +379,7 @@ function generateQ2FutureProposalBoxes() {
         document.getElementById("calculateQ2RewardsButton").style.display = "block";
         return;
     }
+
 
     for (var i = 1; i <= numFutureProposals; i++) {
         var futureProposalBox = document.createElement("div");
@@ -427,6 +427,7 @@ async function fetchJupPrice() {
 }
 
 // Function to calculate and display Q2 rewards
+// Function to calculate and display Q2 rewards
 async function calculateQ2Rewards() {
     var resultsDiv = document.querySelector(".q2-results");
     var statsDiv = document.querySelector(".q2-stats");
@@ -471,13 +472,13 @@ async function calculateQ2Rewards() {
     }
 
     // Define the JUP reward pool
-    var totalJupTokensAllocated = 50000000; // Total JUP tokens allocated
+    var totalJupTokensAllocated = 50000000;
 
     // Calculate total proposals count
     var pastProposalsCount = q2PastProposalInputs.length / 2;
     var numFutureProposals = parseInt(document.getElementById("q2NumFutureProposals").value, 10);
     if (isNaN(numFutureProposals) || numFutureProposals < 0) {
-        numFutureProposals = 0; // Default to 0 if not a valid number
+        numFutureProposals = 0;
     }
     var totalProposalsCount = pastProposalsCount + numFutureProposals;
 
@@ -487,8 +488,8 @@ async function calculateQ2Rewards() {
         var userVotingPowerInput = document.getElementById(`q2VotingPowerProposal${i}`);
 
         if (totalVotingPowerInput && userVotingPowerInput) {
-            var totalVotingPower = parseFloat(totalVotingPowerInput.value.replace(/,/g, '')) || 0;
-            var userVotingPower = parseFloat(userVotingPowerInput.value.replace(/,/g, '')) || 0;
+            var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
+            var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
 
             totalYourVotingPower += userVotingPower;
             totalDaoVotingPower += totalVotingPower;
@@ -506,8 +507,8 @@ async function calculateQ2Rewards() {
         var userVotingPowerInput = document.getElementById(`q2VotingPowerFutureProposal${i}`);
 
         if (totalVotingPowerInput && userVotingPowerInput) {
-            var totalVotingPower = parseFloat(totalVotingPowerInput.value.replace(/,/g, '')) || 0;
-            var userVotingPower = parseFloat(userVotingPowerInput.value.replace(/,/g, '')) || 0;
+            var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
+            var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
 
             totalYourVotingPower += userVotingPower;
             totalDaoVotingPower += totalVotingPower;
@@ -521,22 +522,19 @@ async function calculateQ2Rewards() {
     }
 
     // Fetch JUP price in USDC and calculate the equivalent value in USD
-const jupPrice = await fetchJupPrice();
-const rewardValueInUSD = jupPrice ? parseFloat((totalRewardShare * jupPrice).toFixed(4)) : NaN;
-
-// Ensure totalUSDCValue is handled properly (even if NaN)
-const totalUSDCValue_Q2 = isNaN(rewardValueInUSD) ? 0 : rewardValueInUSD;
+    const jupPrice = await fetchJupPrice();
+    const rewardValueInUSD = jupPrice ? parseFloat((totalRewardShare * jupPrice).toFixed(4)) : NaN;
+    const totalUSDCValue_Q2 = isNaN(rewardValueInUSD) ? 0 : rewardValueInUSD;
 
     // Show the results section after calculation
-resultsDiv.style.display = "block";
-resultsDiv.innerHTML = `
-    <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue_Q2.toFixed(4)} USDC</strong></h2>
-    <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong>  
-    <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</a></em></p> 
-    <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
-    <p>ASR rewards will be distributed in October.</p>
-`;
-
+    resultsDiv.style.display = "block";
+    resultsDiv.innerHTML = `
+        <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue_Q2.toFixed(4)} USDC</strong></h2>
+        <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong></p>
+        <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
+        <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+        <p>ASR rewards will be distributed in October.</p>
+    `;
 
     // Show the stats section after calculation
     statsDiv.style.display = "block";
