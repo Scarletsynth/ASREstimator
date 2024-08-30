@@ -307,6 +307,17 @@ function hideResults() {
 // Your code
 console.timeEnd('calculateRewards');
 
+// Function to format numerical inputs with commas for thousands separators
+function formatNumericInput(input) {
+    var value = input.value.replace(/\D/g, ''); // Remove all non-digit characters
+    var formattedValue = numberWithCommas(value); // Format as comma-separated
+    input.value = formattedValue;
+}
+
+// Function to handle parsing of formatted input values
+function parseFormattedInput(value) {
+    return parseFloat(value.replace(/,/g, '')) || 0; // Remove commas and parse as float
+}
 
 
 // Function to generate Q2 proposal input boxes dynamically
