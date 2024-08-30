@@ -307,18 +307,32 @@ function hideResults() {
 // Your code
 console.timeEnd('calculateRewards');
 
-// Function to format numerical inputs with commas for thousands separators
+
+// Function to format numerical inputs with locale-aware thousands separators
 function formatNumericInput(input) {
     var value = input.value.replace(/\D/g, ''); // Remove all non-digit characters
-    var formattedValue = numberWithCommas(value); // Format as comma-separated
+    var formattedValue = formatNumberWithCommas(value); // Format as comma-separated
     input.value = formattedValue;
 }
 
-// Function to handle parsing of formatted input values
-function parseFormattedInput(value) {
-    return parseFloat(value.replace(/,/g, '')) || 0; // Remove commas and parse as float
+// Function to format numbers with commas based on locale
+function formatNumberWithCommas(x) {
+    // Create a new Intl.NumberFormat object to handle locale-specific formatting
+    var formatter = new Intl.NumberFormat();
+    return formatter.format(x);
 }
 
+// Function to handle parsing of formatted input values, accommodating different locales
+function parseFormattedInput(value) {
+    // Create a new Intl.NumberFormat object to handle locale-specific formatting
+    var formatter = new Intl.NumberFormat();
+    
+    // Get the thousands separator from the locale
+    var thousandsSeparator = formatter.format(1111).replace(/\d/g, '');
+    
+    // Replace the thousands separator with nothing and parse the number
+    return parseFloat(value.replace(new RegExp('\\' + thousandsSeparator, 'g'), '')) || 0;
+}
 
 // Function to generate Q2 proposal input boxes dynamically
 
