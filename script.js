@@ -343,7 +343,8 @@ function generateQ2ProposalBoxes() {
     // Define Q2 past proposals with their respective total voting power
     var q2PastProposals = [
         { name: "J4J #1: Supply Reduction Proposal", totalVotingPower: 274033926 },
-        { name: "Jupiter DAO: Microgrants Proposal", totalVotingPower: 267190808 }
+        { name: "Jupiter DAO: Microgrants Proposal", totalVotingPower: 267190808 },
+        { name: "Trial Budget: Jup & Juice WG (JJWG)", totalVotingPower: 256001468 }
     ];
 
     // Loop through Q2 past proposals and create HTML elements for each
@@ -426,7 +427,6 @@ async function fetchJupPrice() {
     }
 }
 
-// Function to calculate and display Q2 rewards
 // Function to calculate and display Q2 rewards
 async function calculateQ2Rewards() {
     var resultsDiv = document.querySelector(".q2-results");
@@ -529,7 +529,7 @@ async function calculateQ2Rewards() {
     // Show the results section after calculation
     resultsDiv.style.display = "block";
     resultsDiv.innerHTML = `
-        <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue_Q2.toFixed(4)} USDC</strong></h2>
+        <h2>Your Rewards Estimate:</h2>
         <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong></p>
         <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
         <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
