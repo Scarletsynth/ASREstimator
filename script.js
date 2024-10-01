@@ -344,7 +344,8 @@ function generateQ2ProposalBoxes() {
     var q2PastProposals = [
         { name: "J4J #1: Supply Reduction Proposal", totalVotingPower: 274033926 },
         { name: "Jupiter DAO: Microgrants Proposal", totalVotingPower: 267190808 },
-        { name: "Trial Budget: Jup & Juice WG (JJWG)", totalVotingPower: 256001468 }
+        { name: "Trial Budget: Jup & Juice WG (JJWG)", totalVotingPower: 256001468 },
+        { name: "J4J #2: Utilize Excess Jupuary for ASR", totalVotingPower: 307483434 }
     ];
 
     // Loop through Q2 past proposals and create HTML elements for each
