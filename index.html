@@ -56,7 +56,7 @@ Sum of All Individual Proposals Rewards.
 
    <div class="collapsible-container">
     <!-- Collapsible Section 1: March to June -->
-    <button class="collapsible"><span class="section-title">Q1: March to June</span></button>
+    <button class="collapsible"><span class="section-title">Q2: March to June</span></button>
     <div class="collapsible-content">
 
 <div class="perfect-voter-container">
@@ -167,7 +167,7 @@ Sum of All Individual Proposals Rewards.
     </div>
 
     <!-- Calculate Rewards button -->
-<button id="calculateButton" onclick="calculateRewards()" class="figma-button" style="display: none;">Calculate Rewards Q1</button>
+<button id="calculateButton" onclick="calculateRewards()" class="figma-button" style="display: none;">Calculate Rewards Q2</button>
 </div>
 
 
@@ -175,7 +175,7 @@ Sum of All Individual Proposals Rewards.
    
 
 <!-- Collapsible Section 2: July to September -->
-    <button class="collapsible"><span class="section-title">Q2: July to September</span></button>
+    <button class="collapsible"><span class="section-title">Q3: July to September</span></button>
     <div class="collapsible-content">
 
     <!-- Container for past proposals -->
@@ -215,29 +215,10 @@ Sum of All Individual Proposals Rewards.
 
             </div>
 
-  <p class="proposal-description">There will be more proposals before the end of September. To better estimate your reward share, you will have to estimate the number of proposals left, the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for each future proposal. We encourage you to experiment with different values.</p>
-
-
-<!-- Section for estimating future proposals -->
-<div id="q2FutureEstimation" class="future-estimation-container">
-    <label for="q2NumFutureProposals">How many MORE proposals do you estimate we will vote on before the end of the quarter?</label>
-    <input type="number" id="q2NumFutureProposals" placeholder=" 0 ">
-<div class="tooltip estimate-tooltip">
-        <span class="info">i</span>
-        <span class="tooltiptext"> If you want to estimate your current rewards, assuming NO future votes, please enter "0", click Estimate Future Proposals, and then click Calculate.</span>
-    </div>
-
-    <!-- Button to estimate future proposals -->
-    <button id="estimateFutureProposalsButton" class="estimate-future-proposals-btn" onclick="estimateFutureProposals()">Estimate Future Proposals</button>
-</div>
-
-<!-- Section for displaying future proposals -->
-<div id="q2FutureProposalBoxes" class="future-proposal-boxes-container">
-    <!-- Future proposal boxes will be generated here -->
-</div>
+ 
 
 <!-- Button to trigger calculation -->
-<button id="calculateQ2RewardsButton" class="calculate-q2-rewards-btn" style="display: none;" onclick="calculateQ2Rewards()">Calculate Q2 Rewards</button>
+<button id="calculateQ2RewardsButton" class="calculate-q2-rewards-btn" style="display: Block;" onclick="calculateQ2Rewards()">Calculate Q3 Rewards</button>
 
 <div class="q2-results" style="display:none;">
     <h2>Your Rewards Estimate</h2>
