@@ -342,10 +342,10 @@ function generateQ2ProposalBoxes() {
 
     // Define Q2 past proposals with their respective total voting power
     var q2PastProposals = [
-        { name: "J4J #1: Supply Reduction Proposal", totalVotingPower: 274033926 },
-        { name: "Jupiter DAO: Microgrants Proposal", totalVotingPower: 267190808 },
-        { name: "Trial Budget: Jup & Juice WG (JJWG)", totalVotingPower: 256001468 },
-        { name: "J4J #2: Utilize Excess Jupuary for ASR", totalVotingPower: 307483434 }
+        { name: "Proposal 1: J4J #1: Supply Reduction Proposal", totalVotingPower: 274033926 },
+        { name: "Proposal 2: Jupiter DAO: Microgrants Proposal", totalVotingPower: 267190808 },
+        { name: "Proposal 3: Trial Budget: Jup & Juice WG (JJWG)", totalVotingPower: 256001468 },
+        { name: "Proposal 4: J4J #2: Utilize Excess Jupuary for ASR", totalVotingPower: 307483434 }
     ];
 
     // Loop through Q2 past proposals and create HTML elements for each
@@ -364,54 +364,10 @@ function generateQ2ProposalBoxes() {
 }
 
 
-// Function to generate future proposal boxes based on user input
-function generateQ2FutureProposalBoxes() {
-    var numFutureProposals = parseInt(document.getElementById("q2NumFutureProposals").value);
-    var futureProposalBoxesDiv = document.getElementById("q2FutureProposalBoxes");
-    futureProposalBoxesDiv.innerHTML = ""; // Clear previous future proposal boxes
-
-    // Handle the case where the number of future proposals is 0
-    if (isNaN(numFutureProposals) || numFutureProposals < 0) {
-        alert("Please enter a valid number of future proposals.");
-        return;
-    }
-
-    if (numFutureProposals === 0) {
-        // No boxes to generate, but show the Calculate button
-        document.getElementById("calculateQ2RewardsButton").style.display = "block";
-        return;
-    }
-
-
-    for (var i = 1; i <= numFutureProposals; i++) {
-        var futureProposalBox = document.createElement("div");
-        futureProposalBox.classList.add("proposal");
-        futureProposalBox.innerHTML = `
-            <h3>Future Proposal ${i}</h3>
-            <label for="q2VotingPowerFutureProposal${i}">Your Voting Power:</label>
-            <input type="text" id="q2VotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="How much will you vote with?" oninput="formatNumericInput(this)">
-            <label for="q2TotalVotingPowerFutureProposal${i}">DAO Total Voting Power:</label>
-            <input type="text" id="q2TotalVotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="Enter the DAO Total voting power for this proposal" oninput="formatNumericInput(this)">
-        `;
-        futureProposalBoxesDiv.appendChild(futureProposalBox);
-
-        // Add event listeners for hover effect to the newly generated proposal box
-        futureProposalBox.addEventListener('mouseover', function() {
-            this.classList.add('hovered');
-        });
-        futureProposalBox.addEventListener('mouseout', function() {
-            this.classList.remove('hovered');
-        });
-    }
 
     // Show the Calculate Q2 Rewards button
     document.getElementById("calculateQ2RewardsButton").style.display = "block";
-}
 
-// Function to handle the Estimate Future Proposals button click
-function estimateFutureProposals() {
-    generateQ2FutureProposalBoxes();
-}
 
 
 
@@ -456,17 +412,6 @@ async function calculateQ2Rewards() {
         }
     });
 
-    // Check all inputs for future proposals
-    var q2FutureProposalInputs = document.querySelectorAll('#q2FutureProposalBoxes input[type="text"]');
-    q2FutureProposalInputs.forEach(function(input) {
-        if (input.value.trim() === '') {
-            allFieldsFilled = false;
-            input.classList.add('error');
-        } else {
-            input.classList.remove('error');
-        }
-    });
-
     if (!allFieldsFilled) {
         alert('Please fill in all required fields.');
         return;
@@ -477,35 +422,12 @@ async function calculateQ2Rewards() {
 
     // Calculate total proposals count
     var pastProposalsCount = q2PastProposalInputs.length / 2;
-    var numFutureProposals = parseInt(document.getElementById("q2NumFutureProposals").value, 10);
-    if (isNaN(numFutureProposals) || numFutureProposals < 0) {
-        numFutureProposals = 0;
-    }
-    var totalProposalsCount = pastProposalsCount + numFutureProposals;
+    var totalProposalsCount = pastProposalsCount;
 
-    // Calculate rewards for all proposals
+    // Calculate rewards for past proposals
     for (var i = 1; i <= pastProposalsCount; i++) {
         var totalVotingPowerInput = document.getElementById(`q2TotalVotingPowerProposal${i}`);
         var userVotingPowerInput = document.getElementById(`q2VotingPowerProposal${i}`);
-
-        if (totalVotingPowerInput && userVotingPowerInput) {
-            var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
-            var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
-
-            totalYourVotingPower += userVotingPower;
-            totalDaoVotingPower += totalVotingPower;
-
-            if (totalVotingPower > 0) {
-                var rewardPoolPerProposal = totalJupTokensAllocated / totalProposalsCount;
-                var rewardPerProposal = (userVotingPower / totalVotingPower) * rewardPoolPerProposal;
-                totalRewardShare += rewardPerProposal;
-            }
-        }
-    }
-
-    for (var i = 1; i <= numFutureProposals; i++) {
-        var totalVotingPowerInput = document.getElementById(`q2TotalVotingPowerFutureProposal${i}`);
-        var userVotingPowerInput = document.getElementById(`q2VotingPowerFutureProposal${i}`);
 
         if (totalVotingPowerInput && userVotingPowerInput) {
             var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
@@ -530,18 +452,18 @@ async function calculateQ2Rewards() {
     // Show the results section after calculation
     resultsDiv.style.display = "block";
     resultsDiv.innerHTML = `
-        <h2>Your Rewards Estimate:</h2>
+        <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue_Q2.toFixed(4)} USDC</strong></h2>
         <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong></p>
         <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
         <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
-        <p>ASR rewards will be distributed in October.</p>
+        <p>ASR rewards will be distributed sometime in October.</p>
     `;
 
     // Show the stats section after calculation
     statsDiv.style.display = "block";
     statsDiv.innerHTML = `
         <h2>More Stats</h2>
-        <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalDaoVotingPower.toLocaleString()}</strong></p>
+        <p>Total Voting Power Exercised by the Entire DAO: <strong>${totalDaoVotingPower.toLocaleString()}</strong></p>
         <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
         <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
     `;
