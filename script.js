@@ -316,11 +316,7 @@ console.timeEnd('calculateRewards');
 
 
 
-
-
-
 // Function to generate Q2 proposal input boxes dynamically
-
 function generateQ2ProposalBoxes() {
     var q2ProposalBoxesDiv = document.getElementById("q2PastProposals");
     if (!q2ProposalBoxesDiv) return; // Check if the element exists
@@ -336,7 +332,7 @@ function generateQ2ProposalBoxes() {
     ];
 
     // Loop through Q2 past proposals and create HTML elements for each
-    q2PastProposals.forEach(function(proposal, index) {
+    q2PastProposals.forEach(function (proposal, index) {
         var proposalBox = document.createElement("div");
         proposalBox.classList.add("proposal");
         proposalBox.innerHTML = `
@@ -350,36 +346,6 @@ function generateQ2ProposalBoxes() {
     });
 }
 
-
-// Get the checkbox and input container for Q3
-const perfectVoterCheckboxQ3 = document.getElementById('perfectVoterCheckbox-q3');
-const perfectVoterInputContainerQ3 = document.getElementById('perfectVoterInputContainer-q3');
-const perfectVoterInputQ3 = document.getElementById('perfectVoterInput-q3');
-
-// Show input box when the checkbox is checked
-perfectVoterCheckboxQ3.addEventListener('change', function() {
-    if (this.checked) {
-        perfectVoterInputContainerQ3.style.display = 'block';
-    } else {
-        perfectVoterInputContainerQ3.style.display = 'none';
-    }
-});
-
-// Format input with thousands separator
-perfectVoterInputQ3.addEventListener('input', function() {
-    formatNumericInput(perfectVoterInputQ3);
-
-    // Find the parent collapsible-content for Q3
-    const q3CollapsibleContent = perfectVoterCheckboxQ3.closest('.collapsible-content');
-
-    // Autopopulate all 'Your Voting Power' fields within Q3's collapsible-content
-    const votingPowerInputsQ3 = q3CollapsibleContent.querySelectorAll('input[id^="q2VotingPowerProposal"]'); // Select only "Your Voting Power" inputs
-
-    votingPowerInputsQ3.forEach(input => {
-        input.value = perfectVoterInputQ3.value; // Populate with the value from the perfect voter input
-    });
-});
-
 // Function to format numerical inputs with locale-aware thousands separators
 function formatNumericInput(input) {
     var value = input.value.replace(/\D/g, ''); // Remove all non-digit characters
@@ -387,19 +353,47 @@ function formatNumericInput(input) {
     input.value = formattedValue;
 }
 
-// Function to format numbers with commas based on locale
+// Function to format numbers based on locale (e.g., comma or dot for thousands)
 function formatNumberWithCommas(x) {
     var formatter = new Intl.NumberFormat();
     return formatter.format(x);
 }
 
+// Function to parse formatted input values and remove commas or dots for calculations
+function parseFormattedInput(value) {
+    // Remove any commas or dots from the input, converting it to a clean number string
+    const cleanedValue = value.replace(/[,.]/g, '');
+    // Parse the cleaned string to a float
+    return parseFloat(cleanedValue) || 0; // Return 0 if NaN
+}
 
+// Get the checkbox and input container for Q3
+const perfectVoterCheckboxQ3 = document.getElementById('perfectVoterCheckbox-q3');
+const perfectVoterInputContainerQ3 = document.getElementById('perfectVoterInputContainer-q3');
+const perfectVoterInputQ3 = document.getElementById('perfectVoterInput-q3');
 
-    // Show the Calculate Q2 Rewards button
-    document.getElementById("calculateQ2RewardsButton").style.display = "block";
+// Show input box when the checkbox is checked
+perfectVoterCheckboxQ3.addEventListener('change', function () {
+    if (this.checked) {
+        perfectVoterInputContainerQ3.style.display = 'block';
+    } else {
+        perfectVoterInputContainerQ3.style.display = 'none';
+    }
+});
 
+// Handle perfect voter input and update all Voting Power inputs in Q3
+perfectVoterInputQ3.addEventListener('input', function () {
+    formatNumericInput(perfectVoterInputQ3);
 
+    // Find the parent collapsible-content for Q3
+    const q3CollapsibleContent = perfectVoterCheckboxQ3.closest('.collapsible-content');
 
+    // Autopopulate all 'Your Voting Power' fields within Q3's collapsible-content
+    const votingPowerInputsQ3 = q3CollapsibleContent.querySelectorAll('input[id^="q2VotingPowerProposal"]'); // Select only "Your Voting Power" inputs
+    votingPowerInputsQ3.forEach(input => {
+        input.value = perfectVoterInputQ3.value; // Populate with the value from the perfect voter input
+    });
+});
 
 // Function to fetch JUP price in USDC
 async function fetchJupPrice() {
@@ -412,14 +406,6 @@ async function fetchJupPrice() {
         console.error('Error fetching JUP price:', error);
         return null;
     }
-}
-
-// Function to parse formatted input values
-function parseFormattedInput(value) {
-    // Remove any commas from the input
-    const cleanedValue = value.replace(/,/g, '');
-    // Parse the cleaned string to a float
-    return parseFloat(cleanedValue) || 0; // Return 0 if NaN
 }
 
 // Function to calculate and display Q2 rewards
@@ -441,7 +427,7 @@ async function calculateQ2Rewards() {
 
     // Check all inputs for past proposals
     var q2PastProposalInputs = document.querySelectorAll('#q2PastProposals input[type="text"]');
-    q2PastProposalInputs.forEach(function(input) {
+    q2PastProposalInputs.forEach(function (input) {
         if (input.value.trim() === '') {
             allFieldsFilled = false;
             input.classList.add('error');
@@ -458,9 +444,8 @@ async function calculateQ2Rewards() {
     // Define the JUP reward pool
     var totalJupTokensAllocated = 50000000;
 
-// Define the total Cloud tokens allocated as rewards
-var totalCloudTokensAllocated = 7500000; // 7,500,000
-
+    // Define the total Cloud tokens allocated as rewards
+    var totalCloudTokensAllocated = 7500000; // 7,500,000
 
     // Calculate total proposals count
     var pastProposalsCount = q2PastProposalInputs.length / 2;
@@ -472,6 +457,7 @@ var totalCloudTokensAllocated = 7500000; // 7,500,000
         var userVotingPowerInput = document.getElementById(`q2VotingPowerProposal${i}`);
 
         if (totalVotingPowerInput && userVotingPowerInput) {
+            // Parse both user input and total voting power, ignoring commas or dots
             var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
             var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
 
@@ -486,55 +472,58 @@ var totalCloudTokensAllocated = 7500000; // 7,500,000
         }
     }
 
+    var totalCloudRewardShare = 0; // Initialize total Cloud reward share
 
-var totalCloudRewardShare = 0; // Initialize total Cloud reward share
+    for (var i = 1; i <= pastProposalsCount; i++) {
+        var totalVotingPowerInput = document.getElementById(`q2TotalVotingPowerProposal${i}`);
+        var userVotingPowerInput = document.getElementById(`q2VotingPowerProposal${i}`);
 
-for (var i = 1; i <= pastProposalsCount; i++) {
-    var totalVotingPowerInput = document.getElementById(`q2TotalVotingPowerProposal${i}`);
-    var userVotingPowerInput = document.getElementById(`q2VotingPowerProposal${i}`);
+        if (totalVotingPowerInput && userVotingPowerInput) {
+            // Parse both inputs to disregard locale-specific separators
+            var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
+            var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
 
-    if (totalVotingPowerInput && userVotingPowerInput) {
-        var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
-        var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
-
-        if (totalVotingPower > 0) {
-            var cloudRewardPoolPerProposal = totalCloudTokensAllocated / totalProposalsCount; // Split the Cloud tokens by proposals
-            var cloudRewardPerProposal = (userVotingPower / totalVotingPower) * cloudRewardPoolPerProposal; // User's share for this proposal
-            totalCloudRewardShare += cloudRewardPerProposal; // Add to the total Cloud reward share
+            if (totalVotingPower > 0) {
+                var cloudRewardPoolPerProposal = totalCloudTokensAllocated / totalProposalsCount; // Split the Cloud tokens by proposals
+                var cloudRewardPerProposal = (userVotingPower / totalVotingPower) * cloudRewardPoolPerProposal; // User's share for this proposal
+                totalCloudRewardShare += cloudRewardPerProposal; // Add to the total Cloud reward share
+            }
         }
     }
-}
-
-
 
     // Fetch JUP and Cloud prices in USDC
-const jupPrice = await fetchJupPrice();
-const cloudPrice = await fetchTokenPrice('CLoUDKc4Ane7HeQcPpE3YHnznRxhMimJ4MyaUqyHFzAu');
+    const jupPrice = await fetchJupPrice();
+    const cloudPrice = await fetchTokenPrice('CLoUDKc4Ane7HeQcPpE3YHnznRxhMimJ4MyaUqyHFzAu');
 
-// Calculate USD values for rewards
-const rewardValueInUSD = jupPrice ? parseFloat((totalRewardShare * jupPrice).toFixed(4)) : NaN;
-const cloudRewardValueInUSD = cloudPrice ? parseFloat((totalCloudRewardShare * cloudPrice).toFixed(4)) : NaN;
+    // Calculate USD values for rewards
+    const rewardValueInUSD = jupPrice ? parseFloat((totalRewardShare * jupPrice).toFixed(4)) : NaN;
+    const cloudRewardValueInUSD = cloudPrice ? parseFloat((totalCloudRewardShare * cloudPrice).toFixed(4)) : NaN;
 
-const totalUSDCValue_Q2 = isNaN(rewardValueInUSD) ? 0 : rewardValueInUSD;
-const totalCloudValue_Q2 = isNaN(cloudRewardValueInUSD) ? 0 : cloudRewardValueInUSD;
+    const totalUSDCValue_Q2 = isNaN(rewardValueInUSD) ? 0 : rewardValueInUSD;
+    const totalCloudValue_Q2 = isNaN(cloudRewardValueInUSD) ? 0 : cloudRewardValueInUSD;
 
-// Show the results section after calculation
-resultsDiv.style.display = "block";
-resultsDiv.innerHTML = `
-    <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue_Q2.toFixed(4)} USDC</strong></h2>
-    <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong></p>
-        <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
-    <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
-    <p>ASR rewards will be distributed sometime in October.</p>
-    <p><strong>If you found this tool useful, please use the /appreciate command in Discord, and Appurrciate the catdet that shared it with you! ❤️ PPP ❤️</strong></p>
-`;
+    // Show the results section after calculation
+    resultsDiv.style.display = "block";
+    resultsDiv.innerHTML = `
+        <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue_Q2.toFixed(4)} USDC</strong></h2>
+        <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong></p>
+            <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
+        <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+        <p>ASR rewards will be distributed sometime in October.</p>
+        <p><strong>If you found this tool useful, please use the /appreciate command in Discord, and Appurrciate the catdet that shared it with you! ❤️ PPP ❤️</strong></p>
+    `;
 
     // Show the stats section after calculation
     statsDiv.style.display = "block";
     statsDiv.innerHTML = `
-       <p>Total Voting Power Exercised by the Entire DAO: <strong>${totalDaoVotingPower.toLocaleString()}</strong></p>
-    <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
-    <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
+        <p>Total Voting Power Exercised by the Entire DAO: <strong>${totalDaoVotingPower.toLocaleString()}</strong></p>
+        <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
+        <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
     `;
 }
 
+// Make sure to call the necessary functions on page load or initialization
+window.onload = function () {
+    generateQ2ProposalBoxes();
+    document.getElementById("calculateQ2RewardsButton").onclick = calculateQ2Rewards; // Ensure this button calls the correct function
+};
