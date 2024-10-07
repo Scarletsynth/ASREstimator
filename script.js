@@ -316,9 +316,6 @@ console.timeEnd('calculateRewards');
 
 
 
-
-
-
 // Function to generate Q2 proposal input boxes dynamically
 
 function generateQ2ProposalBoxes() {
@@ -381,14 +378,15 @@ perfectVoterInputQ3.addEventListener('input', function() {
 });
 
 
+function parseDAOFormattedInput(value) {
+    // Remove any unwanted characters except for digits and spaces
+    const cleanedValue = value.replace(/[^\d\s]/g, ''); // Allow digits and spaces
 
-function stripFormatting(value) {
-    // Remove any commas, dots, spaces, or apostrophes from the input
-    const cleanedValue = value.replace(/[,. ']/g, ''); 
-    // Convert the cleaned string to a number
-    return parseFloat(cleanedValue) || 0; // Return 0 if NaN
+    // Remove spaces for proper numeric parsing
+    const finalValue = cleanedValue.replace(/\s/g, ''); // Remove all spaces
+
+    return parseFloat(finalValue) || 0; // Convert to float and return 0 if NaN
 }
-
 
     // Show the Calculate Q2 Rewards button
     document.getElementById("calculateQ2RewardsButton").style.display = "block";
@@ -409,12 +407,11 @@ async function fetchJupPrice() {
     }
 }
 
-// Function to parse formatted input values and remove commas, dots, spaces, and apostrophes
 function parseFormattedInput(value) {
-    // Use regex to remove any commas, dots, spaces, or apostrophes from the input
-    const cleanedValue = value.replace(/[,. ']/g, ''); 
-    // Parse the cleaned string to a float
-    return parseFloat(cleanedValue) || 0; // Return 0 if NaN
+    // Remove any unwanted characters except for digits, commas, and spaces
+    const cleanedValue = value.replace(/[^\d\s]/g, ''); // Allow digits and spaces
+    const finalValue = cleanedValue.replace(/\s/g, ''); // Remove all spaces
+    return parseFloat(finalValue) || 0; // Convert to float and return 0 if NaN
 }
 
 // Function to calculate and display Q2 rewards
@@ -535,4 +532,3 @@ resultsDiv.innerHTML = `
     <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
     `;
 }
-
