@@ -1064,9 +1064,16 @@ body.space-theme .q4-stats {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
 }
 
+/* Dark Mode Styles for Q4 Results and Stats Titles */
+body.dark-theme .q4-results h2,
+body.dark-theme .q4-stats h2 {
+    color: #fff; /* Set a color that contrasts well with the dark background */
+}
+
 /* Dark Mode Styles for Q4 Results and Stats */
 body.dark-theme .q4-results, 
 body.dark-theme .q4-stats {
+ color: #fff; /* Light text color for readability */
     border: 2px solid #444;  /* Dark gray border for dark mode */
     background-color: #222;  /* Dark gray background */
     border-radius: 8px;  /* Rounded corners */
