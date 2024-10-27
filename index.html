@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JUPITER DAO Rewards Calculator</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="icon" href="data:,">
+
 </head>
 <body class="space-theme">
 
@@ -56,7 +58,7 @@ Sum of All Individual Proposals Rewards.
 
    <div class="collapsible-container">
     <!-- Collapsible Section 1: March to June -->
-    <button class="collapsible"><span class="section-title">Q2: March to June</span></button>
+    <button class="collapsible"><span class="section-title">Q2 2024: March to June </span></button>
     <div class="collapsible-content">
 
 <div class="perfect-voter-container">
@@ -167,7 +169,7 @@ Sum of All Individual Proposals Rewards.
     </div>
 
     <!-- Calculate Rewards button -->
-<button id="calculateButton" onclick="calculateRewards()" class="figma-button" style="display: none;">Calculate Rewards Q2</button>
+<button id="calculateButton" onclick="calculateRewards()" class="figma-button" style="display: none;">Calculate Q2 Rewards</button>
 </div>
 
 
@@ -175,7 +177,7 @@ Sum of All Individual Proposals Rewards.
    
 
 <!-- Collapsible Section 2: July to September -->
-    <button class="collapsible"><span class="section-title">Q3: July to September</span></button>
+    <button class="collapsible"><span class="section-title"> Q3 2024: July to September </span></button>
     <div class="collapsible-content">
 
 
@@ -243,7 +245,52 @@ Sum of All Individual Proposals Rewards.
 <div class="q2-stats" style="display: none;">
     <!-- Stats for Q2 will be inserted here -->
 </div>
+</div>
 
+
+
+<!-- Collapsible Section 3: October to January -->
+<button class="collapsible"><span class="section-title">Q4 2024: October to January </span></button>
+<div class="collapsible-content">
+
+    <!-- Container for past proposals -->
+    <div id="q4PastProposals" class="proposal-container">
+        <!-- Past Proposals will be generated here by JavaScript -->
+    </div>
+
+    <p class="proposal-description">There will be more proposals before the end of the quarter. To better estimate your reward share, you will have to estimate the number of proposals left, the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for each future proposal. We encourage you to experiment with different values.</p>
+
+    <!-- Section for estimating future proposals -->
+    <div id="q4FutureEstimation" class="future-estimation-container">
+        <label for="q4NumFutureProposals">How many MORE proposals do you estimate we will vote on before the end of the quarter?</label>
+        <input type="number" id="q4NumFutureProposals" placeholder="">
+        <div class="tooltip estimate-tooltip">
+            <span class="info">i</span>
+            <span class="tooltiptext">If you want to estimate your current rewards, assuming NO future votes, please enter "0", click Estimate Future Proposals, and then click Calculate.</span>
+        </div>
+
+        <!-- Button to estimate future proposals -->
+        <button id="estimateQ4FutureProposalsButton" class="estimate-future-proposals-btn" onclick="estimateQ4FutureProposals()">Estimate Future Proposals</button>
+    </div>
+
+    <!-- Section for displaying future proposals -->
+    <div id="q4FutureProposalBoxes" class="future-proposal-boxes-container">
+        <!-- Future proposal boxes will be generated here -->
+    </div>
+
+    <!-- Button to trigger calculation -->
+    <button id="calculateQ4RewardsButton" class="calculate-q4-rewards-btn", style="display: none;", onclick="calculateQ4Rewards()">Calculate Q4 Rewards</button>
+
+    <div class="q4-results" style="display:none;">
+        <h2>Your Rewards Estimate</h2>
+        <p>JUP Reward Share: <strong id="q4JupRewardTokens">0 JUP tokens</strong> <span id="q4JupRewardValueInUSD" style="font-weight: bold;"></span></p>
+        <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+    </div>
+
+    <div class="q4-stats" style="display: none;">
+        <!-- Stats for Q4 will be inserted here -->
+    </div>
+</div>
 
 
   
