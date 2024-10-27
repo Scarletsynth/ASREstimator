@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+
 // Function to handle changes in the perfect voter checkbox
 function handlePerfectVoterCheckbox() {
     var perfectVoterCheckbox = document.getElementById("perfectVoterCheckbox");
@@ -156,6 +157,7 @@ async function fetchTokenPrice(tokenId, vsToken = 'EPjFWdd5AufqSSqeM2qN1xzybapC8
         return null;
     }
 }
+
 
 // Function to calculate rewards and display results
 async function calculateRewards() {
@@ -530,5 +532,278 @@ resultsDiv.innerHTML = `
        <p>Total Voting Power Exercised by the Entire DAO: <strong>${totalDaoVotingPower.toLocaleString()}</strong></p>
     <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
     <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
+    `;
+}
+
+
+
+// Generate Q4 past proposals on page load
+document.addEventListener("DOMContentLoaded", function() {
+    generateQ4PastProposals();
+});
+
+// Function to generate past proposals for Q4 dynamically
+function generateQ4PastProposals() {
+    var pastProposalsDiv = document.getElementById("q4PastProposals");
+    if (!pastProposalsDiv) return;
+
+    // Clear previous content
+    pastProposalsDiv.innerHTML = "";
+
+    // Define Q4 past proposals
+    var q4PastProposals = [
+        { name: "Proposal 1: JUP DAO Quorum Vote", totalVotingPower: 120000000 }
+    ];
+
+    // Loop through Q4 past proposals and create HTML elements for each
+    q4PastProposals.forEach(function(proposal, index) {
+        var proposalBox = document.createElement("div");
+        proposalBox.classList.add("proposal");
+        proposalBox.innerHTML = `
+            <h3>${proposal.name}</h3>
+            <label for="q4VotingPowerProposal${index + 1}">Your Voting Power:</label>
+            <input type="text" id="q4VotingPowerProposal${index + 1}" placeholder="How much will you vote with?" oninput="formatNumericInput(this)">
+            <label for="q4TotalVotingPowerProposal${index + 1}">Total Voting Power:</label>
+            <input type="text" id="q4TotalVotingPowerProposal${index + 1}" placeholder="Enter DAO total voting power" oninput="formatNumericInput(this)">
+        `;
+        pastProposalsDiv.appendChild(proposalBox);
+    });
+}
+
+
+// Function to estimate future proposals for Q4 based on user input
+function estimateQ4FutureProposals() {
+    var numFutureProposals = parseInt(document.getElementById("q4NumFutureProposals").value);
+
+    var futureProposalBoxesDiv = document.getElementById("q4FutureProposalBoxes");
+    futureProposalBoxesDiv.innerHTML = ""; // Clear previous future proposal boxes
+
+    // Check if the input box is empty or negative
+    if (isNaN(numFutureProposals) || numFutureProposals < 0) {
+        alert("Please enter a valid number of future proposals.");
+        return;
+    }
+
+    // If there are no future proposals, display the calculate button
+    if (numFutureProposals === 0) {
+        document.getElementById("calculateQ4RewardsButton").style.display = "block";
+        return;
+    }
+
+    // Generate future proposal input boxes
+    for (var i = 1; i <= numFutureProposals; i++) {
+        var futureProposalBox = document.createElement("div");
+        futureProposalBox.classList.add("proposal");
+        futureProposalBox.innerHTML = `
+            <h3>Future Proposal ${i}</h3>
+            <label for="q4VotingPowerFutureProposal${i}">Your Voting Power:</label>
+            <input type="text" id="q4VotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="How much will you vote with?" oninput="formatNumericInput(this)">
+            <label for="q4TotalVotingPowerFutureProposal${i}">DAO Total Voting Power:</label>
+            <input type="text" id="q4TotalVotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="Enter the DAO Total voting power for this proposal" oninput="formatNumericInput(this)">
+        `;
+        futureProposalBoxesDiv.appendChild(futureProposalBox);
+    }
+
+    // Show the Calculate Rewards button
+    document.getElementById("calculateQ4RewardsButton").style.display = "block";
+}
+
+// Function to format numerical inputs with commas for thousands separators
+function formatNumericInput(input) {
+    var value = input.value.replace(/\D/g, '');
+    var formattedValue = numberWithCommas(value);
+    input.value = formattedValue;
+}
+
+// Function to add commas for thousands separators
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+// Function to fetch JUP price in USDC
+async function fetchJupPrice() {
+    try {
+        const response = await fetch('https://price.jup.ag/v6/price?ids=JUP&vsToken=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // USDC mint address
+        const data = await response.json();
+        const jupPrice = data.data['JUP'].price;
+        return jupPrice;
+    } catch (error) {
+        console.error('Error fetching JUP price:', error);
+        return null;
+    }
+}
+
+
+
+// Function to fetch DBR price in USDC
+async function fetchDbrPrice() {
+    try {
+        const response = await fetch('https://price.jup.ag/v6/price?ids=DBR&vsToken=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // USDC mint address
+        const data = await response.json();
+        const dbrPrice = data.data['DBR'].price;
+        return dbrPrice;
+    } catch (error) {
+        console.error('Error fetching DBR price:', error);
+        return null;
+    }
+}
+
+// Function to calculate and display Q4 rewards
+async function calculateQ4Rewards() {
+    var resultsDiv = document.querySelector(".q4-results");
+    var statsDiv = document.querySelector(".q4-stats");
+
+    if (!resultsDiv || !statsDiv) {
+        console.error('Results or Stats div not found');
+        return;
+    }
+
+    var allFieldsFilled = true;
+
+    // Initialize total rewards and voting power
+    var totalJupRewardShare = 0;
+    var totalDbrRewardShare = 0;
+    var totalYourVotingPower = 0;
+    var totalDaoVotingPower = 0;
+
+    // Check all inputs for past proposals
+    var q4PastProposalInputs = document.querySelectorAll('#q4PastProposals input[type="text"]');
+    q4PastProposalInputs.forEach(function(input) {
+        if (input.value.trim() === '') {
+            allFieldsFilled = false;
+            input.classList.add('error');
+        } else {
+            input.classList.remove('error');
+        }
+    });
+
+    // Check all inputs for future proposals
+    var q4FutureProposalInputs = document.querySelectorAll('#q4FutureProposalBoxes input[type="text"]');
+    q4FutureProposalInputs.forEach(function(input) {
+        if (input.value.trim() === '') {
+            allFieldsFilled = false;
+            input.classList.add('error');
+        } else {
+            input.classList.remove('error');
+        }
+    });
+
+    if (!allFieldsFilled) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    // Define the reward pools
+    var totalJupTokensAllocated = 50000000; // JUP pool
+    var totalDbrTokensAllocated = 75000000; // DBR pool
+
+    // Calculate total proposals count
+    var pastProposalsCount = q4PastProposalInputs.length / 2; // Adjusted for Q4
+    var numFutureProposals = parseInt(document.getElementById("q4NumFutureProposals").value, 10);
+    if (isNaN(numFutureProposals) || numFutureProposals < 0) {
+        numFutureProposals = 0;
+    }
+    var totalProposalsCount = pastProposalsCount + numFutureProposals;
+
+    // Calculate rewards for JUP and DBR for all proposals
+    for (var i = 1; i <= pastProposalsCount; i++) {
+        var totalVotingPowerInput = document.getElementById(`q4TotalVotingPowerProposal${i}`);
+        var userVotingPowerInput = document.getElementById(`q4VotingPowerProposal${i}`);
+
+        if (totalVotingPowerInput && userVotingPowerInput) {
+            var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
+            var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
+
+            totalYourVotingPower += userVotingPower;
+            totalDaoVotingPower += totalVotingPower;
+
+            if (totalVotingPower > 0) {
+                var rewardPoolPerProposalJUP = totalJupTokensAllocated / totalProposalsCount;
+                var rewardPoolPerProposalDBR = totalDbrTokensAllocated / totalProposalsCount;
+
+                var rewardPerProposalJUP = (userVotingPower / totalVotingPower) * rewardPoolPerProposalJUP;
+                var rewardPerProposalDBR = (userVotingPower / totalVotingPower) * rewardPoolPerProposalDBR;
+
+                totalJupRewardShare += rewardPerProposalJUP;
+                totalDbrRewardShare += rewardPerProposalDBR;
+            }
+        }
+    }
+
+    for (var i = 1; i <= numFutureProposals; i++) {
+        var totalVotingPowerInput = document.getElementById(`q4TotalVotingPowerFutureProposal${i}`);
+        var userVotingPowerInput = document.getElementById(`q4VotingPowerFutureProposal${i}`);
+
+        if (totalVotingPowerInput && userVotingPowerInput) {
+            var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
+            var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
+
+            totalYourVotingPower += userVotingPower;
+            totalDaoVotingPower += totalVotingPower;
+
+            if (totalVotingPower > 0) {
+                var rewardPoolPerProposalJUP = totalJupTokensAllocated / totalProposalsCount;
+                var rewardPoolPerProposalDBR = totalDbrTokensAllocated / totalProposalsCount;
+
+                var rewardPerProposalJUP = (userVotingPower / totalVotingPower) * rewardPoolPerProposalJUP;
+                var rewardPerProposalDBR = (userVotingPower / totalVotingPower) * rewardPoolPerProposalDBR;
+
+                totalJupRewardShare += rewardPerProposalJUP;
+                totalDbrRewardShare += rewardPerProposalDBR;
+            }
+        }
+    }
+
+    // Fetch JUP and DBR prices in USDC and calculate the equivalent value in USD
+    const jupPrice = await fetchJupPrice();
+    const dbrPrice = await fetchDbrPrice();
+
+    const jupRewardValueInUSD = jupPrice ? parseFloat((totalJupRewardShare * jupPrice).toFixed(4)) : NaN;
+    const dbrRewardValueInUSD = dbrPrice ? parseFloat((totalDbrRewardShare * dbrPrice).toFixed(4)) : NaN;
+
+    const totalUSDCValue_Q4 = (jupRewardValueInUSD || 0) + (dbrRewardValueInUSD || 0);
+
+// Assuming 'totalYourVotingPower' is your initial JUP and 'totalJupRewardShare' is the reward
+var initialJupHolding = totalYourVotingPower;  // Replace with your actual value
+var rewardJup = totalJupRewardShare;
+
+// Calculate the APY for the quarter
+var quarterlyAPY = (rewardJup / initialJupHolding) * 100;
+
+// Display in the results section
+resultsDiv.innerHTML = `
+    <h2>Your Rewards Estimate:</h2>
+    <p>JUP Reward Share: <strong>${totalJupRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${jupRewardValueInUSD} USDC)</strong></p>
+    <p><strong>Quarterly APY: ${quarterlyAPY.toFixed(2)}%</strong></p>
+    <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
+`;
+
+
+// Show the results and stats after calculation
+document.querySelector(".q4-results").style.display = "block";
+document.querySelector(".q4-stats").style.display = "block";
+
+
+
+
+    // Show the results section after calculation
+    resultsDiv.style.display = "block";
+    resultsDiv.innerHTML = `
+        <h2>Your Rewards Estimate:</h2>
+        <p>JUP Reward Share: <strong>${totalJupRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${jupRewardValueInUSD} USDC)</strong></p>
+        <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
+        <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+  <p><strong>If you found this useful, please use the /appreciate command in Discord, and Appurrciate the catdet that shared it with you! ❤️ PPP ❤️</strong></p>
+
+    `;
+
+    // Show the stats section after calculation
+    statsDiv.style.display = "block";
+    statsDiv.innerHTML = `
+        <h2>More Stats</h2>
+        <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalDaoVotingPower.toLocaleString()}</strong></p>
+        <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
+        <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
     `;
 }
