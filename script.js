@@ -537,6 +537,7 @@ resultsDiv.innerHTML = `
 
 
 
+
 // Generate Q4 past proposals on page load
 document.addEventListener("DOMContentLoaded", function() {
     generateQ4PastProposals();
@@ -550,9 +551,9 @@ function generateQ4PastProposals() {
     // Clear previous content
     pastProposalsDiv.innerHTML = "";
 
-    // Define Q4 past proposals
+    // Define Q4 past proposals with known total voting power
     var q4PastProposals = [
-        { name: "Proposal 1: JUP DAO Quorum Vote", totalVotingPower: 120000000 }
+        { name: "Proposal 1: JUP DAO Quorum Vote", totalVotingPower: 360642471 }
     ];
 
     // Loop through Q4 past proposals and create HTML elements for each
@@ -562,13 +563,14 @@ function generateQ4PastProposals() {
         proposalBox.innerHTML = `
             <h3>${proposal.name}</h3>
             <label for="q4VotingPowerProposal${index + 1}">Your Voting Power:</label>
-            <input type="text" id="q4VotingPowerProposal${index + 1}" placeholder="How much will you vote with?" oninput="formatNumericInput(this)">
+            <input type="text" id="q4VotingPowerProposal${index + 1}" placeholder="How much did you vote with?" oninput="formatNumericInput(this)">
             <label for="q4TotalVotingPowerProposal${index + 1}">Total Voting Power:</label>
-            <input type="text" id="q4TotalVotingPowerProposal${index + 1}" placeholder="Enter DAO total voting power" oninput="formatNumericInput(this)">
+            <input type="text" id="q4TotalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
         `;
         pastProposalsDiv.appendChild(proposalBox);
     });
 }
+
 
 
 // Function to estimate future proposals for Q4 based on user input
