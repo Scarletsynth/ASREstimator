@@ -554,7 +554,7 @@ function generateQ4PastProposals() {
     // Define Q4 past proposals with known total voting power
     var q4PastProposals = [
         { name: "Proposal 1: JUP DAO Quorum Vote", totalVotingPower: 360642471 },
-        { name: "Proposal 2: JUP Mobile Background Vote Results", totalVotingPower: 362217046 },
+        { name: "Proposal 2: JUP Mobile Background Vote", totalVotingPower: 362217046 },
         { name: "Proposal 3: J4J #3: Jupuary Vote 1", totalVotingPower: 364576672  }, 
         { name: "Proposal 4: J4J #3: Jupuary Vote 2", totalVotingPower: 360223503  }
     ];
