@@ -1,3 +1,4 @@
+
 // Handle theme toggle
 var themeToggle = document.getElementById("theme-toggle-checkbox");
 themeToggle.addEventListener("change", function() {
@@ -145,18 +146,6 @@ function numberWithCommas(x) {
 }
 console.time('calculateRewards');
 
-// Function to fetch price for a specific token
-async function fetchTokenPrice(tokenId, vsToken = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v') {
-    try {
-        const response = await fetch(`https://price.jup.ag/v6/price?ids=${tokenId}&vsToken=${vsToken}`);
-        const data = await response.json();
-        const price = data.data[tokenId].price;
-        return price;
-    } catch (error) {
-        console.error(`Error fetching price for token ${tokenId}:`, error);
-        return null;
-    }
-}
 
 
 // Function to calculate rewards and display results
@@ -396,19 +385,6 @@ function parseDAOFormattedInput(value) {
 
 
 
-// Function to fetch JUP price in USDC
-async function fetchJupPrice() {
-    try {
-        const response = await fetch('https://price.jup.ag/v6/price?ids=JUP&vsToken=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // USDC mint address
-        const data = await response.json();
-        const jupPrice = data.data['JUP'].price;
-        return jupPrice;
-    } catch (error) {
-        console.error('Error fetching JUP price:', error);
-        return null;
-    }
-}
-
 function parseFormattedInput(value) {
     // Remove any unwanted characters except for digits, commas, and spaces
     const cleanedValue = value.replace(/[^\d\s]/g, ''); // Allow digits and spaces
@@ -504,22 +480,12 @@ for (var i = 1; i <= pastProposalsCount; i++) {
 
 
 
-    // Fetch JUP and Cloud prices in USDC
-const jupPrice = await fetchJupPrice();
-const cloudPrice = await fetchTokenPrice('CLoUDKc4Ane7HeQcPpE3YHnznRxhMimJ4MyaUqyHFzAu');
-
-// Calculate USD values for rewards
-const rewardValueInUSD = jupPrice ? parseFloat((totalRewardShare * jupPrice).toFixed(4)) : NaN;
-const cloudRewardValueInUSD = cloudPrice ? parseFloat((totalCloudRewardShare * cloudPrice).toFixed(4)) : NaN;
-
-const totalUSDCValue_Q2 = isNaN(rewardValueInUSD) ? 0 : rewardValueInUSD;
-const totalCloudValue_Q2 = isNaN(cloudRewardValueInUSD) ? 0 : cloudRewardValueInUSD;
-
+    
 // Show the results section after calculation
 resultsDiv.style.display = "block";
 resultsDiv.innerHTML = `
-    <h2>Your Rewards Estimate total value: <strong>${totalUSDCValue_Q2.toFixed(4)} USDC</strong></h2>
-    <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${rewardValueInUSD} USDC)</strong></p>
+    <h2>Your Rewards Estimate total value:</h2>
+    <p>JUP Reward Share: <strong>${totalRewardShare.toFixed(4)} JUP tokens</strong> 
         <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
     <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
     <p>ASR rewards will be distributed sometime in October.</p>
@@ -575,6 +541,51 @@ function generateQ4PastProposals() {
     });
 }
 
+// Get the checkbox and input container for Q4
+const perfectVoterCheckboxQ4 = document.getElementById('perfectVoterCheckbox-q4');
+const perfectVoterInputContainerQ4 = document.getElementById('perfectVoterInputContainer-q4');
+const perfectVoterInputQ4 = document.getElementById('perfectVoterInput-q4');
+
+// Show input box when the checkbox is checked
+perfectVoterCheckboxQ4.addEventListener('change', function() {
+    if (this.checked) {
+        perfectVoterInputContainerQ4.style.display = 'block';
+    } else {
+        perfectVoterInputContainerQ4.style.display = 'none';
+    }
+});
+
+// Format input with thousands separator
+perfectVoterInputQ4.addEventListener('input', function() {
+    formatNumericInput(perfectVoterInputQ4);
+
+    // Find the parent collapsible-content for Q4
+    const q4CollapsibleContent = perfectVoterCheckboxQ4.closest('.collapsible-content');
+    
+    // Debug: Log the collapsible content to check if it's found correctly
+    console.log(q4CollapsibleContent);
+    
+    // Autopopulate all 'Your Voting Power' fields within Q4's collapsible-content
+    const votingPowerInputsQ4 = q4CollapsibleContent.querySelectorAll('input[id^="q4VotingPowerProposal"]'); // Select only "Your Voting Power" inputs
+    
+    // Debug: Log the voting power inputs to ensure they're being selected
+    console.log(votingPowerInputsQ4);
+
+    // Populate voting power fields
+    votingPowerInputsQ4.forEach(input => {
+        input.value = perfectVoterInputQ4.value; // Populate with the value from the perfect voter input
+    });
+});
+
+function parseDAOFormattedInput(value) {
+    // Remove any unwanted characters except for digits and spaces
+    const cleanedValue = value.replace(/[^\d\s]/g, ''); // Allow digits and spaces
+
+    // Remove spaces for proper numeric parsing
+    const finalValue = cleanedValue.replace(/\s/g, ''); // Remove all spaces
+
+    return parseFloat(finalValue) || 0; // Convert to float and return 0 if NaN
+}
 
 
 // Function to estimate future proposals for Q4 based on user input
@@ -627,34 +638,6 @@ function numberWithCommas(x) {
 }
 
 
-// Function to fetch JUP price in USDC
-async function fetchJupPrice() {
-    try {
-        const response = await fetch('https://price.jup.ag/v6/price?ids=JUP&vsToken=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // USDC mint address
-        const data = await response.json();
-        const jupPrice = data.data['JUP'].price;
-        return jupPrice;
-    } catch (error) {
-        console.error('Error fetching JUP price:', error);
-        return null;
-    }
-}
-
-
-
-// Function to fetch DBR price in USDC
-async function fetchDbrPrice() {
-    try {
-        const response = await fetch('https://price.jup.ag/v6/price?ids=DBR&vsToken=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // USDC mint address
-        const data = await response.json();
-        const dbrPrice = data.data['DBR'].price;
-        return dbrPrice;
-    } catch (error) {
-        console.error('Error fetching DBR price:', error);
-        return null;
-    }
-}
-
 // Function to calculate and display Q4 rewards
 async function calculateQ4Rewards() {
     var resultsDiv = document.querySelector(".q4-results");
@@ -684,17 +667,7 @@ async function calculateQ4Rewards() {
         }
     });
 
-    // Check all inputs for future proposals
-    var q4FutureProposalInputs = document.querySelectorAll('#q4FutureProposalBoxes input[type="text"]');
-    q4FutureProposalInputs.forEach(function(input) {
-        if (input.value.trim() === '') {
-            allFieldsFilled = false;
-            input.classList.add('error');
-        } else {
-            input.classList.remove('error');
-        }
-    });
-
+    
     if (!allFieldsFilled) {
         alert('Please fill in all required fields.');
         return;
@@ -706,10 +679,7 @@ async function calculateQ4Rewards() {
 
     // Calculate total proposals count
     var pastProposalsCount = q4PastProposalInputs.length / 2; // Adjusted for Q4
-    var numFutureProposals = parseInt(document.getElementById("q4NumFutureProposals").value, 10);
-    if (isNaN(numFutureProposals) || numFutureProposals < 0) {
-        numFutureProposals = 0;
-    }
+    var numFutureProposals = 0
     var totalProposalsCount = pastProposalsCount + numFutureProposals;
 
     // Calculate rewards for JUP and DBR for all proposals
@@ -761,15 +731,7 @@ async function calculateQ4Rewards() {
         }
     }
 
-    // Fetch JUP and DBR prices in USDC and calculate the equivalent value in USD
-    const jupPrice = await fetchJupPrice();
-    const dbrPrice = await fetchDbrPrice();
-
-    const jupRewardValueInUSD = jupPrice ? parseFloat((totalJupRewardShare * jupPrice).toFixed(4)) : NaN;
-    const dbrRewardValueInUSD = dbrPrice ? parseFloat((totalDbrRewardShare * dbrPrice).toFixed(4)) : NaN;
-
-    const totalUSDCValue_Q4 = (jupRewardValueInUSD || 0) + (dbrRewardValueInUSD || 0);
-
+   
 // Assuming 'totalYourVotingPower' is your initial JUP and 'totalJupRewardShare' is the reward
 var initialJupHolding = totalYourVotingPower;  // Replace with your actual value
 var rewardJup = totalJupRewardShare;
@@ -780,7 +742,7 @@ var quarterlyAPY = (rewardJup / initialJupHolding) * 100;
 // Display in the results section
 resultsDiv.innerHTML = `
     <h2>Your Rewards Estimate:</h2>
-    <p>JUP Reward Share: <strong>${totalJupRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${jupRewardValueInUSD} USDC)</strong></p>
+    <p>JUP Reward Share: <strong>${totalJupRewardShare.toFixed(4)} JUP tokens</strong> </p>
     <p><strong>Quarterly APY: ${quarterlyAPY.toFixed(2)}%</strong></p>
     <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
 `;
@@ -797,8 +759,7 @@ document.querySelector(".q4-stats").style.display = "block";
     resultsDiv.style.display = "block";
     resultsDiv.innerHTML = `
         <h2>Your Rewards Estimate:</h2>
-        <p>JUP Reward Share: <strong>${totalJupRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${jupRewardValueInUSD} USDC)</strong></p>
-        <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
+        <p>JUP Reward Share: <strong>${totalJupRewardShare.toFixed(4)} JUP tokens</strong>
         <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
   <p><strong>If you found this useful, please use the /appreciate command in Discord, and Appurrciate the catdet that shared it with you! ❤️ PPP ❤️</strong></p>
 
@@ -813,3 +774,231 @@ document.querySelector(".q4-stats").style.display = "block";
         <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
     `;
 }
+
+
+// Generate Q125 past proposals on page load
+document.addEventListener("DOMContentLoaded", function() {
+    generateQ125PastProposals();
+});
+
+// Function to generate past proposals for Q125 dynamically
+function generateQ125PastProposals() {
+    var pastProposalsDiv = document.getElementById("q125PastProposals");
+    if (!pastProposalsDiv) return;
+
+    // Clear previous content
+    pastProposalsDiv.innerHTML = "";
+
+    // Define Q125 past proposals with no preset value for the Total Voting Power
+var q125PastProposals = [
+    { name: "Proposal 1: Meow's 555 fun vote?", totalVotingPower: "" }, // Empty value for DAO voting power
+];
+
+// Loop through Q125 past proposals and create HTML elements for each
+q125PastProposals.forEach(function(proposal, index) {
+    var proposalBox = document.createElement("div");
+    proposalBox.classList.add("proposal");
+    proposalBox.innerHTML = `
+        <h3>${proposal.name}</h3>
+        <label for="q125VotingPowerProposal${index + 1}">Your Voting Power:</label>
+        <input type="text" id="q125VotingPowerProposal${index + 1}" placeholder="How much voting power will you use?" oninput="formatNumericInput(this)">
+        <label for="q125TotalVotingPowerProposal${index + 1}">Total Voting Power:</label>
+        <input type="text" id="q125TotalVotingPowerProposal${index + 1}" placeholder="aprox 471,000,000 Locked JUP now" oninput="formatNumericInput(this)">
+    `;
+    pastProposalsDiv.appendChild(proposalBox);
+});
+}
+
+// Function to estimate future proposals for Q125 based on user input
+function estimateQ125FutureProposals() {
+    var numFutureProposals = parseInt(document.getElementById("q125NumFutureProposals").value);
+
+    var futureProposalBoxesDiv = document.getElementById("q125FutureProposalBoxes");
+    futureProposalBoxesDiv.innerHTML = ""; // Clear previous future proposal boxes
+
+    // Check if the input box is empty or negative
+    if (isNaN(numFutureProposals) || numFutureProposals < 0) {
+        alert("Please enter a valid number of future proposals.");
+        return;
+    }
+
+
+    // Generate future proposal input boxes
+    for (var i = 1; i <= numFutureProposals; i++) {
+        var futureProposalBox = document.createElement("div");
+        futureProposalBox.classList.add("proposal");
+        futureProposalBox.innerHTML = `
+            <h3>Future Proposal ${i}</h3>
+            <label for="q125VotingPowerFutureProposal${i}">Your Voting Power:</label>
+            <input type="text" id="q125VotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="How much will you vote with?" oninput="formatNumericInput(this)">
+            <label for="q125TotalVotingPowerFutureProposal${i}">DAO Total Voting Power:</label>
+            <input type="text" id="q125TotalVotingPowerFutureProposal${i}" class="future-proposal-input" placeholder="Enter the DAO Total voting power for this proposal" oninput="formatNumericInput(this)">
+        `;
+        futureProposalBoxesDiv.appendChild(futureProposalBox);
+    }
+
+    // Show the Calculate Rewards button
+    document.getElementById("calculateQ125RewardsButton").style.display = "block";
+}
+
+
+
+// Function to fetch JUP price in USDC from the swap quote API
+async function fetchJupPriceFromSwapQuote() {
+    const inputMint = "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN";
+    const outputMint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v";
+    const amount = "1000000000"; // Adjust as necessary
+
+    const url = `https://api.jup.ag/swap/v1/quote?inputMint=${inputMint}&outputMint=${outputMint}&amount=${amount}&slippage=1`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data && data.routePlan && data.routePlan[0]) {
+            const jupToUsdcPrice = data.routePlan[0].swapInfo.outAmount / data.routePlan[0].swapInfo.inAmount; 
+            return jupToUsdcPrice; // Return the price as a decimal (JUP to USDC rate)
+        } else {
+            throw new Error('Price data not available');
+        }
+    } catch (error) {
+        console.error('Error fetching JUP price from swap quote:', error);
+        return null; // Return null if there is an error fetching the price
+    }
+}
+
+// Function to calculate and display Q125 rewards
+async function calculateQ125Rewards() {
+    var resultsDiv = document.querySelector(".q125-results");
+    var statsDiv = document.querySelector(".q125-stats");
+
+    if (!resultsDiv || !statsDiv) {
+        console.error('Results or Stats div not found');
+        return;
+    }
+
+    var allFieldsFilled = true;
+
+    // Initialize total rewards and voting power
+    var totalJupRewardShare = 0;
+    var totalYourVotingPower = 0;
+    var totalDaoVotingPower = 0;
+
+    // Check all inputs for past proposals
+    var q125PastProposalInputs = document.querySelectorAll('#q125PastProposals input[type="text"]');
+    q125PastProposalInputs.forEach(function(input) {
+        if (input.value.trim() === '') {
+            allFieldsFilled = false;
+            input.classList.add('error');
+        } else {
+            input.classList.remove('error');
+        }
+    });
+
+    // Check all inputs for future proposals
+    var q125FutureProposalInputs = document.querySelectorAll('#q125FutureProposalBoxes input[type="text"]');
+    q125FutureProposalInputs.forEach(function(input) {
+        if (input.value.trim() === '') {
+            allFieldsFilled = false;
+            input.classList.add('error');
+        } else {
+            input.classList.remove('error');
+        }
+    });
+
+    if (!allFieldsFilled) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    // Define the reward pools
+    var totalJupTokensAllocated = 50000000; // JUP pool
+
+   // Calculate total proposals count
+var pastProposalsCount = q125PastProposalInputs.length / 2; // Adjusted for Q125
+var numFutureProposals = parseInt(document.getElementById("q125NumFutureProposals").value, 10);
+if (isNaN(numFutureProposals) || numFutureProposals < 0) {
+    numFutureProposals = 0;
+}
+var totalProposalsCount = pastProposalsCount + numFutureProposals;
+
+// Calculate rewards for JUP for all proposals
+for (var i = 1; i <= pastProposalsCount; i++) {
+    var totalVotingPowerInput = document.getElementById(`q125TotalVotingPowerProposal${i}`);
+    var userVotingPowerInput = document.getElementById(`q125VotingPowerProposal${i}`);
+
+    if (totalVotingPowerInput && userVotingPowerInput) {
+        var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
+        var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
+
+        totalYourVotingPower += userVotingPower;
+        totalDaoVotingPower += totalVotingPower;
+
+        if (totalVotingPower > 0) {
+            var rewardPoolPerProposalJUP = totalJupTokensAllocated / totalProposalsCount;
+
+            var rewardPerProposalJUP = (userVotingPower / totalVotingPower) * rewardPoolPerProposalJUP;
+
+            totalJupRewardShare += rewardPerProposalJUP;
+        }
+    }
+}
+
+for (var i = 1; i <= numFutureProposals; i++) {
+    var totalVotingPowerInput = document.getElementById(`q125TotalVotingPowerFutureProposal${i}`);
+    var userVotingPowerInput = document.getElementById(`q125VotingPowerFutureProposal${i}`);
+
+    if (totalVotingPowerInput && userVotingPowerInput) {
+        var totalVotingPower = parseFormattedInput(totalVotingPowerInput.value);
+        var userVotingPower = parseFormattedInput(userVotingPowerInput.value);
+
+        totalYourVotingPower += userVotingPower;
+        totalDaoVotingPower += totalVotingPower;
+
+        if (totalVotingPower > 0) {
+            var rewardPoolPerProposalJUP = totalJupTokensAllocated / totalProposalsCount;
+
+            var rewardPerProposalJUP = (userVotingPower / totalVotingPower) * rewardPoolPerProposalJUP;
+
+            totalJupRewardShare += rewardPerProposalJUP;
+        }
+    }
+}
+
+// Fetch JUP price in USDC and calculate the equivalent value in USD
+const jupPrice = await fetchJupPriceFromSwapQuote();
+
+// Keep the reward calculation logic separate and unaffected
+const jupRewardValueInUSD = jupPrice ? parseFloat((totalJupRewardShare * jupPrice).toFixed(4)) : NaN;
+
+// Display in the results section
+resultsDiv.innerHTML = `
+    <h2>Your Rewards Estimate:</h2>
+    <p>JUP Reward Share: <strong>${totalJupRewardShare.toFixed(4)} JUP tokens</strong> <strong>(${jupRewardValueInUSD} USDC)</strong></p>
+    <p><em>USDC values powered by Jupiter Price API and reflect current prices at the time of calculation. Recalculate for a live update.</em></p>
+`;
+
+// Show the results and stats after calculation
+document.querySelector(".q125-results").style.display = "block";
+document.querySelector(".q125-stats").style.display = "block";
+
+// Show the stats section after calculation
+statsDiv.style.display = "block";
+statsDiv.innerHTML = `
+    <h2>More Stats</h2>
+    <p>Total Voting Power Exercised by the Entire DAO according to your estimate: <strong>${totalDaoVotingPower.toLocaleString()}</strong></p>
+    <p>Your Total Voting Power across all proposals: <strong>${totalYourVotingPower.toLocaleString()}</strong></p>
+    <p>JUP Reward Pool: <span id="totalRewardPools">[50,000,000 $JUP]</span></p>
+`;
+
+// Helper function to format numeric inputs (i.e., ensure they are valid numbers)
+function formatNumericInput(input) {
+    input.value = input.value.replace(/[^0-9.]/g, ''); // Remove non-numeric characters except for '.'
+}
+
+// Helper function to parse formatted inputs (e.g., with commas or periods)
+function parseFormattedInput(value) {
+    return parseFloat(value.replace(/,/g, '')); // Convert formatted strings to numeric values
+}
+}
+
+
