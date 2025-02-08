@@ -439,6 +439,21 @@ h2 {
     padding: 10px;
 }
 
+
+
+/* When Q4 is expanded, ensure it stays within its boundary */
+#content-q4.expanded {
+    display: block;
+    max-height: 500px; /* Adjust this height as needed */
+    padding-bottom: 20px; /* Add space at the bottom */
+}
+
+/* Ensure Q1 2025 stays below Q4 */
+#content-q1-2025 {
+    margin-top: 20px; /* Space between Q4 and Q1 2025 */
+}
+
+
 /* Dark theme styles for collapsible section */
 .dark-theme .collapsible {
     background-color: #333; /* Dark background color */
@@ -496,42 +511,134 @@ h2 {
     border-radius: 5px; /* Rounded corners */
 }
 
-/* CSS for Tooltip */
-.perfect-voter-tooltip {
-    position: relative; /* Ensure tooltip container positioning */
-    z-index: 1001; /* Make sure it is on top */
+
+
+.perfect-voter-container-q4 {
+    border: 1px solid #ccc; /* Light grey border */
+    padding: 10px; /* Space inside */
+    margin: 10px 0; /* Space outside */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light grey background */
 }
 
+.perfect-voter-container-q4 {
+    display: flex; /* Aligns everything in one row */
+    align-items: center; /* Keeps everything vertically centered */
+    gap: 10px; /* Adds space between elements */
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+
+/* Ensure everything stays in one horizontal line */
+.perfect-voter-container-q4 {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 10px; /* Add spacing between elements */
+}
+
+/* Ensure the input appears in line when checkbox is checked */
+.perfect-voter-input-container {
+    display: none; /* Initially hidden */
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.perfect-voter-checkbox:checked ~ .perfect-voter-input-container {
+    display: flex;
+}
+
+/* Dark mode styles */
+body.dark-theme .perfect-voter-container-q4 {
+    background-color: #222;
+    border: 2px solid #444;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Hover effect for dark mode */
+body.dark-theme .perfect-voter-container-q4:hover {
+    background-color: #2a2a2a;
+    border: 2px solid #666;
+}
+
+
+.perfect-voter-input-container {
+    display: inline-block; /* Keeps it inline instead of stacking */
+}
+
+
 .perfect-voter-tooltip {
-    position: relative; /* Ensure tooltip container positioning */
+    position: relative; /* Ensure correct positioning */
+    z-index: 1100; /* Make sure it stays on top */
 }
 
 .perfect-voter-tooltip .tooltiptext {
-    visibility: hidden; /* Hidden by default */
-    width: 240px; /* Tooltip width */
-    background-color: #555; /* Background color */
-    color: #fff; /* Text color */
-    text-align: left; /* Text alignment */
-    border-radius: 6px; /* Rounded corners */
-    padding: 10px; /* Padding */
-    position: absolute; /* Absolute positioning */
-    z-index: 1001; /* Ensure it is on top */
-    top: 100%; /* Position below the icon */
-    left: 50%; /* Center horizontally */
-    transform: translateX(-50%); /* Center horizontally */
-    opacity: 0; /* Hidden initially */
-    transition: opacity 0.3s ease; /* Fade-in effect */
+    visibility: hidden;
+    width: auto; /* Allow it to adjust naturally */
+    max-width: 300px; /* Wider on desktop */
+    min-width: 240px; /* Prevent it from being too small */
+    background-color: #555;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1100;
+    top: auto;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease, bottom 0.3s ease;
+    white-space: normal;
+    overflow: visible;
 }
 
+/* Show tooltip on hover */
 .perfect-voter-tooltip:hover .tooltiptext {
-    visibility: visible; /* Show on hover */
-    opacity: 1; /* Make tooltip fully visible */
+    visibility: visible;
+    opacity: 1;
+    bottom: 130%;
 }
 
+/* Dark mode styles */
+body.dark-theme .perfect-voter-tooltip .tooltiptext {
+    background-color: #222;
+    border: 1px solid #666;
+}
 
-/* Hover effect for perfect voter container */
-.perfect-voter-container:hover {
-    background-color: #f0f0f0; /* Light gray background on hover */
+/* Make it wider on large screens */
+@media (min-width: 768px) {
+    .perfect-voter-tooltip .tooltiptext {
+        max-width: 350px; /* Extra width for larger screens */
+    }
+}
+
+/* Ensure the tooltip appears correctly for Q4 */
+.q4-container .perfect-voter-tooltip .tooltiptext {
+    bottom: 120%; /* Move the tooltip above the icon */
+    left: 50%; /* Keep it centered */
+    transform: translateX(-50%); /* Center alignment */
+    white-space: normal; /* Ensure text wraps properly */
+    overflow: visible; /* Prevent cutting off */
+}
+
+/* Dark mode tooltip styling for Q4 */
+body.dark-theme .q4-container .perfect-voter-tooltip .tooltiptext {
+    background-color: #222; /* Darker background */
+    border: 1px solid #666; /* Add a subtle border */
+}
+
+/* Ensure tooltip visibility is not affected by parent container */
+.q4-container .perfect-voter-tooltip {
+    position: relative; /* Ensure positioning is correct */
+    z-index: 1100; /* Higher z-index to prevent overlap issues */
 }
 
 
@@ -696,7 +803,7 @@ h2 {
 
 .tooltip .tooltiptext {
     visibility: hidden;
-    width: 200px; /* Fixed width */
+    width: 100px; /* Fixed width */
     max-width: 80vw; /* Maximum width to fit within viewport */
     min-height: 100px; /* Set minimum height */
     background-color: #555; /* Background color */
@@ -944,6 +1051,36 @@ h2 {
     color: #444; /* Darker grey text color */
 }
 
+/* Apply same styles as your other buttons */
+#calculateQ125RewardsButton {
+    background-color: #ccc; /* Same background as the other buttons */
+    color: #444; /* Same text color */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+#calculateQ125RewardsButton:hover {
+    background-color: #ddd; /* Same hover effect */
+    color: #444;
+}
+
+/* Dark theme styles */
+body.dark-theme #calculateQ125RewardsButton {
+    background-color: #bbb; /* Darker background for dark mode */
+    color: #fff;
+}
+
+body.dark-theme #calculateQ125RewardsButton:hover {
+    background-color: #aaa; /* Even darker background on hover for dark mode */
+}
+
 
 /* Light Mode Styles */
 
@@ -1146,8 +1283,8 @@ body.dark-theme .future-estimation-container input {
 
 /* Dark Mode button styles */
 body.dark-theme .estimate-future-proposals-btn {
-    background-color: #444; /* Dark gray background for buttons */
     color: #ddd; /* Light text color for buttons */
+    background-color: #444; /* Dark gray background for buttons */
     padding: 10px 20px; /* Padding for the button */
     border: none; /* Remove border */
     border-radius: 5px; /* Rounded corners */
@@ -1243,9 +1380,8 @@ body.dark-theme #calculateQ2RewardsButton:hover {
 
 
 
-
-
 /* Q4 Section Styles */
+
 
 
 #calculateQ4RewardsButton {
@@ -1353,4 +1489,42 @@ body.dark-theme #calculateQ4RewardsButton:hover {
     margin-bottom: 20px; /* Spacing between sections */
 }
 
+/* Apply same styles as your other buttons */
+#calculateQ125RewardsButton {
+    background-color: #ccc; /* Same background as the other buttons */
+    color: #444; /* Same text color */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease;
+    box-sizing: border-box;
+}
+
+#calculateQ125RewardsButton:hover {
+    background-color: #ddd; /* Same hover effect */
+    color: #444;
+}
+
+/* Dark theme styles */
+body.dark-theme #calculateQ125RewardsButton {
+    background-color: #bbb; /* Darker background for dark mode */
+    color: #fff;
+}
+
+body.dark-theme #calculateQ125RewardsButton:hover {
+    background-color: #aaa; /* Even darker background on hover for dark mode */
+}
+
+
+.perfect-voter-container-q4 {
+    border: 1px solid #ccc; /* Light grey border */
+    padding: 10px; /* Space inside */
+    margin: 10px 0; /* Space outside */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Light grey background */
+}
 
