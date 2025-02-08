@@ -44,11 +44,12 @@ Your Reward for Each Proposal
 (
 Your Voting Power
 ÷
-Total Voting Power of the Proposal
+Total Voting Power of that Proposal
 )
 ×
 Total Reward Pool per Proposal.
-Total Reward Share
+
+Your Total Reward Share
 =
 Sum of All Individual Proposals Rewards.
 
@@ -249,37 +250,30 @@ Sum of All Individual Proposals Rewards.
 
 
 
-<!-- Collapsible Section 3: October to January -->
-<button class="collapsible"><span class="section-title">Q4 2024: October to December </span></button>
-<div class="collapsible-content">
+<!-- Collapsible Section 3: October to December 2024 -->
+<button class="collapsible" id="collapsible-q4"><span class="section-title">Q4 2024: October to December </span></button>
+<div class="collapsible-content" id="content-q4">
+
+<div class="perfect-voter-container-q4">
+    <label for="perfectVoterCheckbox-q4" class="perfect-voter-text">I've never missed a vote</label>
+    <input type="checkbox" id="perfectVoterCheckbox-q4" class="perfect-voter-checkbox">
+    <div id="perfectVoterInputContainer-q4" class="perfect-voter-input-container" style="display: none;">
+        <input type="text" id="perfectVoterInput-q4" class="perfect-voter-input" placeholder="Your voting power">
+    </div>
+    <div class="tooltip perfect-voter-tooltip">
+        <span class="info">i</span>
+        <span class="tooltiptext">Only use this if you have voted in ALL proposals, WITH THE SAME voting power. Otherwise, input your voting power below for each proposal accordingly, and type 0 for the votes you did not participate in.</span>
+    </div>
+</div>
 
     <!-- Container for past proposals -->
     <div id="q4PastProposals" class="proposal-container">
         <!-- Past Proposals will be generated here by JavaScript -->
     </div>
 
-    <p class="proposal-description">There will be more proposals before the end of the quarter. To better estimate your reward share, you will have to estimate the number of proposals left, the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for each future proposal. We encourage you to experiment with different values.</p>
-
-    <!-- Section for estimating future proposals -->
-    <div id="q4FutureEstimation" class="future-estimation-container">
-        <label for="q4NumFutureProposals">How many MORE proposals do you estimate we will vote on before the end of the quarter?</label>
-        <input type="number" id="q4NumFutureProposals" placeholder="">
-        <div class="tooltip estimate-tooltip">
-            <span class="info">i</span>
-            <span class="tooltiptext">If you want to estimate your current rewards, assuming NO future votes, please enter "0", click Estimate Future Proposals, and then click Calculate.</span>
-        </div>
-
-        <!-- Button to estimate future proposals -->
-        <button id="estimateQ4FutureProposalsButton" class="estimate-future-proposals-btn" onclick="estimateQ4FutureProposals()">Estimate Future Proposals</button>
-    </div>
-
-    <!-- Section for displaying future proposals -->
-    <div id="q4FutureProposalBoxes" class="future-proposal-boxes-container">
-        <!-- Future proposal boxes will be generated here -->
-    </div>
-
+  
     <!-- Button to trigger calculation -->
-    <button id="calculateQ4RewardsButton" class="calculate-q4-rewards-btn", style="display: none;", onclick="calculateQ4Rewards()">Calculate Q4 Rewards</button>
+    <button id="calculateQ4RewardsButton" class="calculate-q4-rewards-btn", style="display: block;", onclick="calculateQ4Rewards()">Calculate Q4 Rewards</button>
 
     <div class="q4-results" style="display:none;">
         <h2>Your Rewards Estimate</h2>
@@ -289,6 +283,55 @@ Sum of All Individual Proposals Rewards.
 
     <div class="q4-stats" style="display: none;">
         <!-- Stats for Q4 will be inserted here -->
+    </div>
+</div>
+
+
+
+<!-- Collapsible Section 4: January to March 2025 -->
+<button class="collapsible" id="collapsible-q1-2025"><span class="section-title">Q1 2025: January to March </span></button>
+<div class="collapsible-content" id="content-q1-2025">
+
+
+    <!-- Container for past proposals -->
+    <div id="q125PastProposals" class="proposal-container">
+        <!-- Past Proposals will be generated here by JavaScript -->
+    </div>
+
+    <p class="proposal-description">There will be more proposals before the end of the quarter. To better estimate your reward share, you will have to estimate the number of proposals left, the Voting Power YOU will use, and what you estimate the total voting power (of the entire DAO) will be, for each future proposal. We encourage you to experiment with different values.</p>
+
+    <!-- Section for estimating future proposals -->
+    <div id="q125FutureEstimation" class="future-estimation-container">
+        <label for="q125NumFutureProposals">How many MORE proposals do you estimate we will vote on before the end of the quarter?</label>
+        <input type="number" id="q125NumFutureProposals" placeholder="most likely 7">
+        <div class="tooltip estimate-tooltip">
+            <span class="info">i</span>
+            <span class="tooltiptext">If you want to estimate your current rewards, assuming NO future votes, please enter "0", click Estimate Future Proposals, and then click Calculate.</span>
+        </div>
+
+        <!-- Button to estimate future proposals -->
+        <button id="estimateQ125FutureProposalsButton" class="estimate-future-proposals-btn" onclick="estimateQ125FutureProposals()">Estimate Future Proposals</button>
+    </div>
+
+    <!-- Section for displaying future proposals -->
+    <div id="q125FutureProposalBoxes" class="future-proposal-boxes-container">
+        <!-- Future proposal boxes will be generated here -->
+    </div>
+
+
+    <!-- Button to trigger calculation -->
+<!-- Button to trigger calculation -->
+<button id="calculateQ125RewardsButton" class="calculate-rewards-btn" style="display: none;" onclick="calculateQ125Rewards()">Calculate Q1 2025 Rewards</button>
+
+
+    <div class="q125-results" style="display:none;">
+        <h2>Your Rewards Estimate</h2>
+        <p>JUP Reward Share: <strong id="q125JupRewardTokens">0 JUP tokens</strong> <span id="q125JupRewardValueInUSD" style="font-weight: bold;"></span></p>
+        <p>These results display your total reward share. If you'd like to know the results per Voting Power Unit (1 locked $JUP), use 1 JUP as voting power in the estimate.</p>
+    </div>
+
+    <div class="q125-stats" style="display: none;">
+        <!-- Stats for Q1 2025 will be inserted here -->
     </div>
 </div>
 
