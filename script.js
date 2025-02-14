@@ -803,7 +803,7 @@ q125PastProposals.forEach(function(proposal, index) {
         <label for="q125VotingPowerProposal${index + 1}">Your Voting Power:</label>
         <input type="text" id="q125VotingPowerProposal${index + 1}" placeholder="How much voting power will you use?" oninput="formatNumericInput(this)">
         <label for="q125TotalVotingPowerProposal${index + 1}">Total Voting Power:</label>
-        <input type="text" id="q125TotalVotingPowerProposal${index + 1}" placeholder="aprox 471,000,000 Locked JUP now" oninput="formatNumericInput(this)">
+        <input type="text" id="q125TotalVotingPowerProposal${index + 1}" placeholder="aprox 515,000,000 Locked JUP now" oninput="formatNumericInput(this)">
     `;
     pastProposalsDiv.appendChild(proposalBox);
 });
