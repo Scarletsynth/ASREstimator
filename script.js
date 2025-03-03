@@ -802,12 +802,13 @@ q125PastProposals.forEach(function(proposal, index) {
         <h3>${proposal.name}</h3>
         <label for="q125VotingPowerProposal${index + 1}">Your Voting Power:</label>
         <input type="text" id="q125VotingPowerProposal${index + 1}" placeholder="How much voting power will you use?" oninput="formatNumericInput(this)">
-        <label for="q125TotalVotingPowerProposal${index + 1}">Total Voting Power:</label>
-        <input type="text" id="q125TotalVotingPowerProposal${index + 1}" placeholder="aprox 544,861,035 Locked JUP now" oninput="formatNumericInput(this)">
+       <label for="q125TotalVotingPowerProposal${index + 1}">Total Voting Power:</label>
+        <input type="text" id="q125TotalVotingPowerProposal${index + 1}" value="453,175,767" disabled>
     `;
     pastProposalsDiv.appendChild(proposalBox);
 });
 }
+
 
 // Function to estimate future proposals for Q125 based on user input
 function estimateQ125FutureProposals() {
