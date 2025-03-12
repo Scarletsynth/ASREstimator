@@ -791,7 +791,8 @@ function generateQ125PastProposals() {
 
     // Define Q125 past proposals with no preset value for the Total Voting Power
 var q125PastProposals = [
-    { name: "Proposal 1: Proposal to Update Jupiter Logo", totalVotingPower: "" }, // Empty value for DAO voting power
+    { name: "Proposal 1: Update Jupiter Logo", totalVotingPower: "453,175,767" }, 
+    { name: "Proposal 2: Meow's 2030 Lock-in", totalVotingPower: "488,751,779" }
 ];
 
 // Loop through Q125 past proposals and create HTML elements for each
@@ -803,7 +804,8 @@ q125PastProposals.forEach(function(proposal, index) {
         <label for="q125VotingPowerProposal${index + 1}">Your Voting Power:</label>
         <input type="text" id="q125VotingPowerProposal${index + 1}" placeholder="How much voting power will you use?" oninput="formatNumericInput(this)">
        <label for="q125TotalVotingPowerProposal${index + 1}">Total Voting Power:</label>
-        <input type="text" id="q125TotalVotingPowerProposal${index + 1}" value="453,175,767" disabled>
+        <input type="text" id="q125TotalVotingPowerProposal${index + 1}" value="${proposal.totalVotingPower.toLocaleString()}" disabled>
+
     `;
     pastProposalsDiv.appendChild(proposalBox);
 });
