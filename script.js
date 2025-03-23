@@ -792,7 +792,8 @@ function generateQ125PastProposals() {
     // Define Q125 past proposals with no preset value for the Total Voting Power
 var q125PastProposals = [
     { name: "Proposal 1: Update Jupiter Logo", totalVotingPower: "453,175,767" }, 
-    { name: "Proposal 2: Meow's 2030 Lock-in", totalVotingPower: "488,751,779" }
+    { name: "Proposal 2: Meow's 2030 Lock-in", totalVotingPower: "488,751,779" },
+    { name: "Proposal 3: Catdets Working Group Budget", totalVotingPower: "442,834,882" }
 ];
 
 // Loop through Q125 past proposals and create HTML elements for each
